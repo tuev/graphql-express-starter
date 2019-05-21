@@ -7,7 +7,7 @@ const Dotenv = require('dotenv-webpack')
 
 module.exports = merge(baseConfig, {
   // watch: true,
-  // devtool: 'sourcemap',
+  devtool: 'sourcemap',
   target: 'node',
   node: {
     __filename: true,
@@ -17,19 +17,26 @@ module.exports = merge(baseConfig, {
     // new StartServerPlugin('server.js'),
     new webpack.NamedModulesPlugin(),
     // new webpack.HotModuleReplacementPlugin(),
-    // new webpack.NoEmitOnErrorsPlugin(),
-    // new CleanWebpackPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new CleanWebpackPlugin(),
     new Dotenv({
       path: './.env.production'
+    }),
+    new webpack.DefinePlugin({
+      'process.env': { BUILD_TARGET: JSON.stringify('server') }
     })
-    // new webpack.DefinePlugin({
-    //   'process.env': { BUILD_TARGET: JSON.stringify('server') }
-    // })
     // new webpack.BannerPlugin({
     //   banner: 'require("source-map-support").install();',
     //   raw: true,
     //   entryOnly: false
     // })
   ],
-  mode: 'production'
+  mode: 'production',
+  resolve: {
+    alias: {
+      '@utils': path.resolve(__dirname, 'src/utils/'),
+      '@middlewares': path.resolve(__dirname, 'src/api/middlewares/'),
+      '@scalars': path.resolve(__dirname, 'src/api/scalars')
+    }
+  }
 })
