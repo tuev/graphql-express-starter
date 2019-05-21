@@ -1,11 +1,12 @@
-const merge = require('webpack-merge')
-const baseConfig = require('./base.config')
 const webpack = require('webpack')
+const path = require('path')
+const nodeExternals = require('webpack-node-externals')
 const StartServerPlugin = require('start-server-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 
-module.exports = merge(baseConfig, {
+module.exports = {
+  entry: ['./src/index'],
   // watch: true,
   devtool: 'sourcemap',
   target: 'node',
@@ -13,14 +14,45 @@ module.exports = merge(baseConfig, {
     __filename: true,
     __dirname: true
   },
+  externals: [nodeExternals({ whitelist: ['webpack/hot/poll?1000'] })],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              babelrc: false,
+              presets: ['@babel/preset-env'],
+              plugins: [
+                '@babel/plugin-transform-regenerator',
+                '@babel/plugin-transform-runtime'
+              ]
+            }
+          }
+        ],
+        exclude: ['/node_modules/', '/dist', '/generated']
+      },
+      {
+        test: /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'graphql-tag/loader'
+          }
+        ]
+      }
+    ]
+  },
   plugins: [
-    // new StartServerPlugin('server.js'),
+    new StartServerPlugin('server.js'),
     new webpack.NamedModulesPlugin(),
     // new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new CleanWebpackPlugin(),
     new Dotenv({
-      path: './.env.production'
+      path: './.env.development'
     }),
     new webpack.DefinePlugin({
       'process.env': { BUILD_TARGET: JSON.stringify('server') }
@@ -31,6 +63,7 @@ module.exports = merge(baseConfig, {
     //   entryOnly: false
     // })
   ],
+  output: { path: path.join(__dirname, 'dist'), filename: 'server.js' },
   mode: 'production',
   resolve: {
     alias: {
@@ -39,4 +72,4 @@ module.exports = merge(baseConfig, {
       '@scalars': path.resolve(__dirname, 'src/api/scalars')
     }
   }
-})
+}
