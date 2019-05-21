@@ -6,17 +6,17 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 
 module.exports = merge(baseConfig, {
-  watch: true,
-  devtool: 'sourcemap',
+  // watch: true,
+  // devtool: 'sourcemap',
   target: 'node',
   node: {
     __filename: true,
     __dirname: true
   },
   plugins: [
-    new StartServerPlugin('server.js'),
+    // new StartServerPlugin('server.js'),
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new CleanWebpackPlugin(),
     new Dotenv({
@@ -24,12 +24,12 @@ module.exports = merge(baseConfig, {
     }),
     new webpack.DefinePlugin({
       'process.env': { BUILD_TARGET: JSON.stringify('server') }
-    }),
-    new webpack.BannerPlugin({
-      banner: 'require("source-map-support").install();',
-      raw: true,
-      entryOnly: false
     })
+    // new webpack.BannerPlugin({
+    //   banner: 'require("source-map-support").install();',
+    //   raw: true,
+    //   entryOnly: false
+    // })
   ],
   mode: 'production'
 })
