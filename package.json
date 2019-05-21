@@ -4,7 +4,7 @@
   "description": "project research express +  graphQL",
   "main": "index.js",
   "scripts": {
-    "heroku-postbuild": "webpack -p",
+    "heroku-postbuild": "webpack --webpack-config webpack/dev.config.js -p ",
     "start": "node ./dist/server.js",
     "dev": "webpack --webpack-config webpack/dev.config.js --colors --progress",
     "start-docker": "bash start.sh",
