@@ -4,7 +4,8 @@
   "description": "project research express +  graphQL",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --webpack-config webpack/dev.config.js --colors --progress",
+    "start": "node ./dist/server.js",
+    "dev": "webpack --webpack-config webpack/dev.config.js --colors --progress",
     "start-docker": "bash start.sh",
     "test:unit": "NODE_ENV=testing rm -rf ./tmp/mocha-webpack && mocha-webpack --webpack-config webpack.testing.js \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register",
     "test": "npm run test:unit",
