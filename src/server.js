@@ -9,6 +9,8 @@ const app = express()
 // graphql route
 // graphQLRouter.applyMiddleware({ app })
 
+app.use(express.static(__dirname + '/dist/server.js'))
+
 // catch all
 app.all('*', (req, res) => {
   res.json({ ok: true })
