@@ -14,7 +14,7 @@ module.exports = {
     __filename: true,
     __dirname: true
   },
-  externals: [nodeExternals({ whitelist: ['webpack/hot/poll?1000'] })],
+  // externals: [nodeExternals({ whitelist: ['webpack/hot/poll?1000'] })],
   module: {
     rules: [
       {
@@ -46,7 +46,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new StartServerPlugin('server.js'),
+    // new StartServerPlugin('server.js'),
     new webpack.NamedModulesPlugin(),
     // new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
