@@ -2,7 +2,7 @@ import { merge } from 'lodash'
 
 /* ----------------------------- CUSTOM SCALAR . ---------------------------- */
 
-import { emailScalar } from '@scalars'
+import { emailScalar, passwordScalar } from '@scalars'
 
 /* --------------------------- RESOLVER FOR MODULE -------------------------- */
 
@@ -21,6 +21,7 @@ import { SKUResolvers } from '@modules/SKU'
 const resolvers = merge(
   {},
   emailScalar,
+  passwordScalar,
   userResolvers,
   brandResolvers,
   categoryResolvers,
