@@ -34,6 +34,7 @@
     "bcrypt": "^3.0.6",
     "express": "^4.17.1",
     "express-restify-mongoose": "^5.0.0",
+    "faker": "^4.1.0",
     "graphql": "^14.4.2",
     "graphql-tools": "^4.0.5",
     "jsonwebtoken": "^8.5.1",
