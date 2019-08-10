@@ -66,10 +66,10 @@ describe('event rest api test', () => {
 describe('event rest api test', () => {
   it('it should be updated', done => {
     const event = {
-      name: 'The First Project 3',
-      author: 'MrBin 3',
-      description: 'Nothing'
+      name: 'The First Project 3'
     }
+
+    const keys = Object.keys(event)
     const id = '5d4e7d9df2541d3dd9bd6275'
     chai
       .sendLocalRequest()
@@ -81,9 +81,7 @@ describe('event rest api test', () => {
         if (err) return done(err)
         const eventUpdated = res.body
         expect(eventUpdated).to.be.a('object')
-        expect(eventUpdated).to.have.property('name').to.equal(event.name)
-        expect(eventUpdated).to.have.property('author').to.equal(event.author)
-        expect(eventUpdated).to.have.property('description').to.equal(event.description)
+        keys.map(key => expect(eventUpdated).to.have.property(key).to.equal(event[key]))
         done()
       })
   })
