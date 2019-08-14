@@ -1,12 +1,3 @@
-enum onModel {
-  Brand
-  Category
-  Collection
-  SKU
-}
-
-# union ImageInfo = Brand | Category | Collection
-
 type Image {
   id: ID!
   name: String
@@ -15,16 +6,21 @@ type Image {
   description: String
 }
 
+extend type Brand {
+  Images: [Image]
+}
+
 extend type Query {
   images: [Image]!
-  image(id: String): Image
+  image(id: String!): Image
 }
 
 extend type Mutation {
   addImage(
     name: String!
     url: String!
-    description: String # on: String # onModel: onModel
+    description: String
+    slug: String
   ): Image
-  deleteImage(id: String): Boolean
+  deleteImage(id: String!): Boolean
 }

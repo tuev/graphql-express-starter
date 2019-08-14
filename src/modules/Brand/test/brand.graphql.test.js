@@ -48,20 +48,13 @@ describe('Brand graphql test', () => {
   })
 
   it('add brands', done => {
-    const newBrand = {
-      name: 'new brand'
-    }
     chai
       .sendLocalRequest()
       .post('/graphql')
       .set('Accept', 'application/json')
       .send({
-        query: `
-          mutation{
-            addBrand(name: "${newBrand.name}", collections: ["5d260d58fba1a8859baff6f7"]){
-              id
-             }
-           }`
+        query: `mutation($name: String!, $description: String!) {\n  addBrand(input: {name: $name, description: $description} ){\n    id\n  }\n}\n`,
+        variables: `{"name":"test brand","description":"test description"}`
       })
       .expect(200)
       .end((err, res) => {

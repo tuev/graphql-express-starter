@@ -1,7 +1,5 @@
 import { emailScalar } from './Email'
 import { passwordScalar } from './Password'
-import * as scalars from './scalar.graphql'
+import { slugScalar } from './Slug'
 
-export { scalars }
-
-export { emailScalar, passwordScalar }
+export { emailScalar, passwordScalar, slugScalar }

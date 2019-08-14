@@ -1,3 +1,15 @@
 directive @email on ARGUMENT_DEFINITION | FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 
+directive @validId(type: Model) on INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
 
+enum Model {
+  BrandId
+  CollectionId
+  CategoryId
+  ProductId
+  ColorId
+  ImageId
+  SizeId
+  SKUId
+  UserId
+}

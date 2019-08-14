@@ -1,2 +1,3 @@
 scalar Email
 scalar Password
+scalar Slug

@@ -1,6 +1,6 @@
 // import applyMiddleware from '@utils/applyMiddlewares'
 // import { requireAuthorization } from '@middlewares'
-import { camelCase, get } from 'lodash'
+import { get, pick } from 'lodash'
 import Brand from './brand.model'
 
 /* ------------------------------- QUERY ------------------------------- */
@@ -17,9 +17,12 @@ const brand = async (_, { id }) => {
 
 /* ----------------------------- MUTATION ---------------------------- */
 
-const addBrand = async (_, { name, description, slug: slugInput = '' }) => {
-  const slug = slugInput || camelCase(name)
-  const result = await Brand.create({ name, description, slug })
+const addBrand = async (_, args = {}) => {
+  const newBrand = pick(args.input, ['name', 'description', 'slug'])
+  const result = await Brand.create({
+    ...newBrand,
+    slug: newBrand.slug || newBrand.name
+  })
   return result
 }
 
@@ -27,6 +30,7 @@ const deleteBrand = async (_, { id }) => {
   try {
     const result = await Brand.deleteOne({ _id: id })
     const deleteCount = get(result, 'deletedCount', 0)
+
     return !!deleteCount
   } catch (error) {
     return false

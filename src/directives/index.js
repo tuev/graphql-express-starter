@@ -1,12 +1,11 @@
-import { emailDirectives } from './email.directive'
-import * as directives from './directive.graphql'
-
-export { directives }
+import { emailDirectives } from './email'
+import { validIdDirectives } from './validId'
 
 export { emailDirectives }
 
 export const schemaDirectives = {
-  ...emailDirectives
+  ...emailDirectives,
+  ...validIdDirectives
 }
 
 export default schemaDirectives

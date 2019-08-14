@@ -25,6 +25,7 @@ class EmailDirective extends SchemaDirectiveVisitor {
   }
 
   wrapType (field) {
+    console.log(field, 'field')
     if (
       field.type instanceof GraphQLNonNull &&
       field.type.ofType instanceof GraphQLScalarType

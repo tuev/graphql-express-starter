@@ -1,20 +1,30 @@
 type Brand {
   id: ID!
   name: String!
-  slug: String!
+  slug: Slug!
   description: String
-  Categories: [Category]
-  Collections: [Collection]
+  categories: [Category]
+  collections: [Collection]
   SKUs: [SKU]
-  Images: [Image]
+  images: [Image]
 }
 
 extend type Query {
   brands: [Brand]!
-  brand(id: String!): Brand
+  brand(id: ID! @validId(type: BrandId)): Brand
+}
+
+input BrandInput {
+  name: String!
+  description: String
+  categories: [ID] @validId(type: CategoryId)
+  collections: [ID] @validId(type: CollectionId)
+  SKUs: [ID] @validId(type: SKUId)
+  images: [ID] @validId(type: ImageId)
 }
 
 extend type Mutation {
-  addBrand(name: String!, description: String, collections: [String]): Brand!
-  deleteBrand(id: ID): Boolean!
+  addBrand (input: BrandInput): Brand!
+  editBrand (input: BrandInput): Brand!
+  deleteBrand(id: ID! @validId(type: BrandId)): Boolean!
 }
