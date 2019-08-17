@@ -1,5 +1,5 @@
 import Image from './image.model'
-import { camelCase, get } from 'lodash'
+import { pick, get } from 'lodash'
 
 /* ------------------------------- QUERY ------------------------------- */
 
@@ -15,13 +15,13 @@ const image = async (_, { id }) => {
 
 /* ----------------------------- MUTATION ---------------------------- */
 
-const addImage = async (
-  _,
-  { name, url, slug: slugInfo = '', on, onModel = '' }
-) => {
-  const slug = slugInfo || camelCase(name)
-  const newImage = await Image.create({ name, url, slug, on, onModel })
-  return newImage
+const addImage = async (_, args = {}) => {
+  const newImage = pick(args.input, ['name', 'url', 'slug', 'description'])
+  const image = await Image.create({
+    ...newImage,
+    slug: newImage.slug || newImage.name
+  })
+  return image
 }
 
 const deleteImage = async (_, { id }) => {
