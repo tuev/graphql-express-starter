@@ -2,7 +2,7 @@ import Product from '../product.model'
 const chai = require('chai')
 const expect = chai.expect
 
-describe.only('product graphql test', () => {
+describe('product graphql test', () => {
   it('get products', done => {
     chai
       .sendLocalRequest()

@@ -19,13 +19,13 @@ const skuSchema = new Schema(
       type: Boolean,
       default: false
     },
-    Color: Schema.Types.ObjectId,
-    Size: Schema.Types.ObjectId,
-    Brand: Schema.Types.ObjectId,
-    Collection: Schema.Types.ObjectId,
-    Category: Schema.Types.ObjectId,
-    Images: [Schema.Types.ObjectId],
-    Product: Schema.Types.ObjectId
+    color: Schema.Types.ObjectId,
+    size: Schema.Types.ObjectId,
+    brandType: Schema.Types.ObjectId,
+    collectionType: Schema.Types.ObjectId,
+    categoryType: Schema.Types.ObjectId,
+    productType: Schema.Types.ObjectId,
+    images: [Schema.Types.ObjectId]
   },
   { timestamps: true }
 )
