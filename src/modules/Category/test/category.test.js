@@ -56,12 +56,11 @@ describe('Category graphql test', () => {
       .post('/graphql')
       .set('Accept', 'application/json')
       .send({
-        query: `
-          mutation{
-            addCategory(name: "${newCategory.name}"){
-              id
-             }
-           }`
+        query: `mutation($name: String!, $description: String!) {\n  addCategory(input: {name: $name, description: $description}) {\n    id\n  }\n}`,
+        variables: {
+          name: newCategory.name,
+          description: 'category description'
+        }
       })
       .expect(200)
       .end((err, res) => {
