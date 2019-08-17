@@ -1,5 +1,5 @@
 import Category from './category.model'
-import { camelCase, get } from 'lodash'
+import { get, pick } from 'lodash'
 
 /* ------------------------------- QUERY ------------------------------- */
 
@@ -15,9 +15,12 @@ const category = async (_, { id }) => {
 
 /* ----------------------------- MUTATION ---------------------------- */
 
-const addCategory = async (_, { name, description }) => {
-  const slug = camelCase(name)
-  const result = await Category.create({ name, slug, description })
+const addCategory = async (_, args = {}) => {
+  const newCategory = pick(args.input, ['name', 'description', 'slug'])
+  const result = await Category.create({
+    ...newCategory,
+    slug: newCategory.slug || newCategory.name
+  })
   return result
 }
 
