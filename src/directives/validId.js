@@ -40,16 +40,18 @@ class ValidIdDirective extends SchemaDirectiveVisitor {
       const argName = argument.name
       const args = resolveArgs[1]
       const valueToValidate = args[argName]
-
-      const brandValid = await mapValidType[this.args.type].findById(
-        valueToValidate
-      )
-      if (!brandValid) {
-        throw new ApolloError(
-          `No valid ID for ${this.args.type}`,
-          'INVALID_ARGUMENT'
+      if (valueToValidate) {
+        const brandValid = await mapValidType[this.args.type].findById(
+          valueToValidate
         )
+        if (!brandValid) {
+          throw new ApolloError(
+            `No valid ID for ${this.args.type}`,
+            'INVALID_ARGUMENT'
+          )
+        }
       }
+
       return originalResolver.apply(this, resolveArgs)
     }
   }

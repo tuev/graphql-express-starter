@@ -1,3 +1,3 @@
-import * as directives from './directive.graphql'
+import * as directives from './directive.gql'
 
 export { directives }

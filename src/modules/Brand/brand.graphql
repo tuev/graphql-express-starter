@@ -17,15 +17,24 @@ extend type Query {
 input BrandInput {
   name: String!
   description: String
-  slug: String
-  categories: [ID] @validId(type: CategoryId)
-  collections: [ID] @validId(type: CollectionId)
-  SKUs: [ID] @validId(type: SKUId)
-  images: [ID] @validId(type: ImageId)
 }
 
 extend type Mutation {
-  addBrand (input: BrandInput): Brand!
-  editBrand (input: BrandInput): Brand!
+  addBrand (
+    input: BrandInput, 
+    categories: [ID] @validId(type: CategoryId),
+    collections: [ID] @validId(type: CollectionId),
+    SKUs: [ID] @validId(type: SKUId),
+    images: [ID] @validId(type: ImageId),
+    slug: String
+  ):Brand!
+  updateBrand (
+    input: BrandInput, 
+    id: ID! @validId(type: BrandId), 
+    categories: [ID] @validId(type: CategoryId),
+    collections: [ID] @validId(type: CollectionId),
+    SKUs: [ID] @validId(type: SKUId),
+    images: [ID] @validId(type: ImageId)
+  ): Brand!
   deleteBrand(id: ID! @validId(type: BrandId)): Boolean!
 }

@@ -55,6 +55,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "compression-webpack-plugin": "^3.0.0",
     "cross-env": "^5.2.0",
+    "dirty-chai": "^2.0.1",
     "dotenv-webpack": "^1.7.0",
     "eslint": "^6.0.1",
     "eslint-config-standard": "^13.0.1",
@@ -93,9 +94,17 @@
     "env": {
       "mocha": true
     },
-    "rules": {
-      "no-unused-expressions": "off"
-    }
+    "overrides": [
+      {
+        "files": [
+          "*.test.js",
+          "*.spec.js"
+        ],
+        "rules": {
+          "no-unused-expressions": "off"
+        }
+      }
+    ]
   },
   "nyc": {
     "include": [
