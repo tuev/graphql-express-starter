@@ -2,7 +2,7 @@ import Product from '../product.model'
 const chai = require('chai')
 const expect = chai.expect
 
-describe('product graphql test', () => {
+describe.only('product graphql test', () => {
   it('get products', done => {
     chai
       .sendLocalRequest()
@@ -47,36 +47,25 @@ describe('product graphql test', () => {
   })
 
   it('add product', async () => {
-    const name = 'testSize'
-    const slug = 'testSize'
-    const description = 'testSize'
-    const isPublic = 'testSize'
-    const status = false
-    try {
-      const result = await chai
-        .sendLocalRequest()
-        .post('/graphql')
-        .set('Accept', 'application/json')
-        .send({
-          query: `
-          mutation{
-            addProduct(
-              name: ${name},
-              slug: ${slug},
-              description: ${description},
-              isPublic: ${isPublic},
-              status: ${status}
-            ){
-              id
-             }
-           }`
-        })
-      expect(result.status).is.equal(200)
-      const data = result.body.data
-      expect(data).is.to.be.an('object')
-    } catch (error) {
-      if (error) return error
+    const newProduct = {
+      name: 'testSize',
+      slug: 'testSize',
+      description: 'testSize',
+      isPublic: 'testSize',
+      status: false
     }
+    const result = await chai
+      .sendLocalRequest()
+      .post('/graphql')
+      .set('Accept', 'application/json')
+      .send({
+        query:
+          'mutation ($name: String!, $description: String!) {\n  addProduct(input: {name: $name, description: $description}) {\n    id\n  }\n}\n',
+        variables: newProduct
+      })
+    expect(result.status).is.equal(200)
+    const data = result.body.data
+    expect(data).is.to.be.an('object')
   })
 
   it('delete product', async () => {
