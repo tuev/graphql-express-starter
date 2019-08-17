@@ -8,19 +8,25 @@ enum SIZE_VALUE {
 
 type Size {
   id: ID!
-  name: String
-  slug: String!
+  name: String!
+  slug: Slug!
   value: SIZE_VALUE
   description: String
   SKUs: [SKU]
 }
 
+input SizeInput {
+  name: String!
+  description: String
+  value: SIZE_VALUE!
+}
+
 extend type Query {
   sizes: [Size]!
-  size(id: String): Size
+  size(id: ID! @validId(type: SizeId)): Size
 }
 
 extend type Mutation {
-  addSize(name: String, description: String, value: SIZE_VALUE): Size!
-  deleteSize(id: String!): Boolean
+  addSize(input: SizeInput): Size!
+  deleteSize(id: ID! @validId(type: SizeId)): Boolean
 }
