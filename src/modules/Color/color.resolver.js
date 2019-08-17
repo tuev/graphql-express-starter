@@ -1,5 +1,5 @@
 import Color from './color.model'
-import { camelCase, get } from 'lodash'
+import { pick, get } from 'lodash'
 /* ------------------------------- QUERY ------------------------------- */
 
 const colors = async () => {
@@ -14,12 +14,13 @@ const color = async (_, { id }) => {
 
 /* ----------------------------- MUTATION ---------------------------- */
 
-const addColor = async (
-  _,
-  { name, slug: slugInfo = '', value = 'white', description = '' }
-) => {
-  const slug = slugInfo || camelCase(name)
-  const color = await Color.create({ name, slug, value, description })
+const addColor = async (_, args = {}) => {
+  const newColor = pick(args.input, ['name', 'slug', 'value', 'description'])
+  const color = await Color.create({
+    ...newColor,
+    value: newColor.value || 'white',
+    slug: newColor.slug || newColor.name
+  })
   return color
 }
 
