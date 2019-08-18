@@ -1,7 +1,7 @@
 type SKU {
   id: ID!
   name: String
-  slug: String!
+  slug: Slug!
   quantity: Int!
   price: Int!
   discount: Int
@@ -15,26 +15,28 @@ type SKU {
   Product: Product
 }
 
+input SKUInput {
+  name: String!
+  slug: String
+  quantity: Int!
+  price: Int!
+  discount: Int
+  isPublic: Boolean
+  color: ID @validId(type: ColorId)
+  size: ID @validId(type: SizeId)
+  brandType: ID @validId(type: BrandId)
+  collectionType: ID @validId(type: CollectionId)
+  categoryType: ID @validId(type: CategoryId)
+  productType: ID @validId(type: ProductId)
+  images: [ID] @validId(type: ImageId)
+}
+
 extend type Query {
   skus: [SKU]!
-  sku(id: String): SKU
+  sku(id: ID! @validId(type: SKUId)): SKU!
 }
 
 extend type Mutation {
-  addSKU(
-    name: String
-    slug: String
-    quantity: Int
-    price: Int
-    discount: Int
-    isPublic: Boolean
-    color: String
-    size: String
-    Brand: String
-    Collection: String
-    Category: String
-    images: [String]
-    Product: String
-  ): SKU!
-  deleteSKU(id: String): Boolean
+  addSKU(input: SKUInput): SKU!
+  deleteSKU(id: ID! @validId(type: SKUId)): Boolean
 }

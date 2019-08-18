@@ -16,5 +16,5 @@ extend type Query {
 }
 
 extend type Mutation {
-  signup(email: Email!, password: String!, username: String!): AuthPayLoad!
+  signup(email: Email!, password: Password!, username: String!): AuthPayLoad!
 }

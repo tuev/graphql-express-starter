@@ -49,19 +49,17 @@ describe('color graphql test', () => {
   it('add color', done => {
     const newColor = {
       name: 'new color',
-      value: 'blue'
+      value: 'blue',
+      description: 'color description'
     }
     chai
       .sendLocalRequest()
       .post('/graphql')
       .set('Accept', 'application/json')
       .send({
-        query: `
-          mutation{
-            addColor(name: "${newColor.name}", value: "${newColor.value}"){
-              id
-             }
-           }`
+        query:
+          'mutation ($name: String!, $description: String!, $value: String!) {\n  addColor(input: {name: $name, description: $description, value: $value}) {\n    id\n  }\n}\n',
+        variables: newColor
       })
       .expect(200)
       .end((err, res) => {

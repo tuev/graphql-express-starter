@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@utils": ["src/utils"],
+      "@middlewares": ["src/middlewares"],
+      "@modules": ["src/modules"],
+      "@directives": ["src/directives"],
+      "@scalars": ["src/scalars"]
+    }
+  }
+}

@@ -2,11 +2,11 @@ import { gql } from 'apollo-server-express'
 
 /* ------------------------- TYPE FOR DIRECTIVE ------------------------- */
 
-import { directives } from '@directives'
+import { directives } from '@directives/directives.typeDef'
 
 /* --------------------------- TYPE FOR SCALAR -------------------------- */
 
-import { scalars } from '@scalars'
+import { scalars } from '@scalars/scalars.typeDef'
 
 /* --------------------------- TYPE FOR MODULE -------------------------- */
 

@@ -24,7 +24,17 @@ graphQLRouter.installSubscriptionHandlers(server)
 
 /* ------------------------------ SERVER SERVE ------------------------------ */
 
-server.listen(port, () => console.log('server is connected', port))
+server.listen(port, () => {
+  console.log(
+    `🚀 Server ready at http://localhost:${port}${graphQLRouter.graphqlPath}`
+  )
+  console.log(
+    `🚀 Subscriptions ready at ws://localhost:${port}${
+      graphQLRouter.subscriptionsPath
+    }`
+  )
+  console.log(' server is connected', port)
+})
 
 /* ------------------------------- HMR ENABLE ------------------------------- */
 

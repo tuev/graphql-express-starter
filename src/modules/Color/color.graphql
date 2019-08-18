@@ -1,18 +1,25 @@
 type Color {
   id: ID!
   name: String!
-  slug: String!
+  slug: Slug!
   value: String!
   description: String
   SKUs: [SKU]
 }
 
+input ColorInput {
+  name: String!
+  value: String!
+  description: String
+  SKUs: [ID!] @validId(type: SKUId)
+}
+
 extend type Query {
   colors: [Color]!
-  color(id: String): Color!
+  color(id: ID! @validId(type: ColorId)): Color!
 }
 
 extend type Mutation {
-  addColor(name: String!, value: String!, description: String): Color!
-  deleteColor(id: String!): Boolean
+  addColor(input: ColorInput): Color!
+  deleteColor(id: ID! @validId(type: ColorId)): Boolean
 }

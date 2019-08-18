@@ -1,7 +1,7 @@
 type Collection {
   id: ID!
   name: String!
-  slug: String!
+  slug: Slug!
   description: String
   Brands: [Brand]
   Categories: [Category]
@@ -9,12 +9,22 @@ type Collection {
   Images: [Image]
 }
 
+input CollectionInput {
+  name: String!
+  description: String
+  slug: String
+  brands: [ID!] @validId(type: BrandId)
+  categories: [ID] @validId(type: CategoryId)
+  SKUs: [ID] @validId(type: SKUId)
+  images: [ID] @validId(type: ImageId)
+}
+
 extend type Query {
   collections: [Collection]!
-  collection(id: String!): Collection!
+  collection(id: ID! @validId(type: CollectionId)): Collection!
 }
 
 extend type Mutation {
-  addCollection(name: String!, description: String): Collection!
-  deleteCollection(id: String!): Boolean!
+  addCollection(input: CollectionInput!): Collection!
+  deleteCollection(id: ID! @validId(type: CollectionId)): Boolean!
 }

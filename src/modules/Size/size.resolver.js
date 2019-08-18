@@ -1,5 +1,5 @@
 import Size from './size.model'
-import { camelCase, get } from 'lodash'
+import { pick, get } from 'lodash'
 
 /* ------------------------------- QUERY ------------------------------- */
 
@@ -15,16 +15,11 @@ const size = async (_, { id }) => {
 
 /* ----------------------------- MUTATION ---------------------------- */
 
-const addSize = async (
-  _,
-  { name = '', slug: slugInfo = '', value = 'M', description = '' }
-) => {
-  const slug = slugInfo || camelCase(name)
+const addSize = async (_, args) => {
+  const newSize = pick(args.input, ['name', 'slug', 'value', 'description'])
   const result = await Size.create({
-    name,
-    slug,
-    value,
-    description
+    ...newSize,
+    slug: newSize.slug || newSize.name
   })
   return result
 }

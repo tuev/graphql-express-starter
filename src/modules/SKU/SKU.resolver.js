@@ -1,5 +1,5 @@
 import SKU from './sku.model'
-import { camelCase, get } from 'lodash'
+import { pick, get } from 'lodash'
 
 /* ------------------------------- QUERY ------------------------------- */
 
@@ -15,41 +15,19 @@ const sku = async (_, { id }) => {
 
 /* ----------------------------- MUTATION ---------------------------- */
 
-const addSKU = async (
-  _,
-  {
-    name = '',
-    slug: slugInfo = '',
-    quantity = 0,
-    price = 0,
-    discount = 0,
-    isPublic = false,
-    Color = '',
-    Size = '',
-    Brand = '',
-    Collection = '',
-    Category = '',
-    Images = [],
-    Product = ''
-  }
-) => {
-  const slug = slugInfo || camelCase(name)
+const addSKU = async (_, args) => {
+  const newSKU = pick(args.input, [
+    'name',
+    'slug',
+    'quantity',
+    'price',
+    'discount',
+    'isPublic'
+  ])
   const result = await SKU.create({
-    name,
-    slug,
-    quantity,
-    price,
-    discount,
-    isPublic,
-    Color,
-    Size,
-    Brand,
-    Collection,
-    Category,
-    Images,
-    Product
+    ...newSKU,
+    slug: newSKU.slug || newSKU.name
   })
-  console.log(result, 'result')
   return result
 }
 

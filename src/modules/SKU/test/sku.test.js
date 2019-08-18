@@ -46,23 +46,21 @@ describe('sku graphql test', () => {
     expect(data).is.to.be.an('object')
   })
 
-  it.skip('add sku', done => {
+  it('add sku', done => {
     const newsku = {
       name: 'new sku',
-      slug: 'sku slug',
-      description: 'test sku'
+      quantity: 30,
+      price: 40,
+      discount: 70
     }
     chai
       .sendLocalRequest()
       .post('/graphql')
       .set('Accept', 'application/json')
       .send({
-        query: `
-          mutation{
-            addSKU(name: "${newsku.name}", slug: "${newsku.slug}"){
-              id
-             }
-           }`
+        query:
+          'mutation ($name: String!, $quantity: Int!, $price: Int!, $discount: Int) {\n  addSKU(input: {name: $name, quantity: $quantity, price: $price, discount: $discount}) {\n    id\n  }\n}\n',
+        variables: newsku
       })
       .expect(200)
       .end((err, res) => {
