@@ -55,12 +55,12 @@ describe('test collection', () => {
       .post('/graphql')
       .set('Accept', 'application/json')
       .send({
-        query: `
-          mutation{
-            addCollection(name: "${newCollection.name}"){
-              id
-             }
-           }`
+        query:
+          'mutation($name: String!, $description: String!) {\n  addCollection(input: {name: $name, description: $description}) {\n    id\n  }\n}',
+        variables: {
+          name: newCollection.name,
+          description: 'collection description'
+        }
       })
       .expect(200)
       .end((err, res) => {

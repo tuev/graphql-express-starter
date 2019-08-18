@@ -1,7 +1,7 @@
 type Category {
   id: ID!
   name: String!
-  slug: String!
+  slug: Slug!
   description: String
   Brands: [Brand]
   Collections: [Collection]
@@ -9,12 +9,22 @@ type Category {
   Images: [Image]
 }
 
+input CategoryInput {
+  name: String!
+  description: String
+  slug: String
+  brands: [ID] @validId(type: BrandId)
+  collections: [ID] @validId(type: CollectionId)
+  SKUs: [ID] @validId(type: SKUId)
+  images: [ID] @validId(type: ImageId)
+}
+
 extend type Query {
   categories: [Category]!
-  category(id: String): Category
+  category(id: ID! @validId(type: CategoryId)): Category
 }
 
 extend type Mutation {
-  addCategory(name: String, description: String): Category
-  deleteCategory(id: String): Boolean
+  addCategory(input: CategoryInput): Category
+  deleteCategory(id: ID! @validId(type: CategoryId)): Boolean
 }

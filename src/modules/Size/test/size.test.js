@@ -57,12 +57,9 @@ describe('size graphql test', () => {
       .post('/graphql')
       .set('Accept', 'application/json')
       .send({
-        query: `
-          mutation{
-            addSize(name: "${newsize.name}", value: ${newsize.value}){
-              id
-             }
-           }`
+        query:
+          'mutation ($name: String!, $value: SIZE_VALUE!) {\n  addSize(input: {name: $name, value: $value}) {\n    id\n  }\n}\n',
+        variables: newsize
       })
       .expect(200)
       .end((err, res) => {

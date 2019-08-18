@@ -13,9 +13,9 @@ const brandSchema = new Schema(
       required: true
     },
     description: String,
-    Collections: [Schema.Types.ObjectId],
-    Categories: [Schema.Types.ObjectId],
-    Images: [Schema.Types.ObjectId],
+    collections: [Schema.Types.ObjectId],
+    categories: [Schema.Types.ObjectId],
+    images: [Schema.Types.ObjectId],
     SKUs: [Schema.Types.ObjectId]
   },
   { timestamps: true }

@@ -51,7 +51,7 @@ describe('image graphql test', () => {
   it('add image', done => {
     const newimage = {
       name: 'new image',
-      value: 'blue',
+      description: 'blue',
       url: 'test'
     }
     chai
@@ -59,12 +59,9 @@ describe('image graphql test', () => {
       .post('/graphql')
       .set('Accept', 'application/json')
       .send({
-        query: `
-          mutation{
-            addImage(name: "${newimage.name}", url: "${newimage.value}"){
-              id
-             }
-           }`
+        query:
+          'mutation ($name: String!, $description: String!, $url: String!) {\n  addImage(input: {name: $name, description: $description, url: $url}) {\n    id\n  }\n}\n',
+        variables: newimage
       })
       .expect(200)
       .end((err, res) => {

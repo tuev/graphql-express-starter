@@ -1,5 +1,5 @@
 import Collection from './collection.model'
-import { camelCase, get } from 'lodash'
+import { get, pick } from 'lodash'
 
 /* ------------------------------- QUERY ------------------------------- */
 
@@ -15,9 +15,12 @@ const collection = async (_, { id }) => {
 
 /* ----------------------------- MUTATION ---------------------------- */
 
-const addCollection = async (_, { name, slug: slugInfo = '', description }) => {
-  const slug = slugInfo || camelCase(name)
-  const result = await Collection.create({ name, slug, description })
+const addCollection = async (_, args = {}) => {
+  const newCollection = pick(args.input, ['name', 'description', 'slug'])
+  const result = await Collection.create({
+    ...newCollection,
+    slug: newCollection.slug || newCollection.name
+  })
   return result
 }
 

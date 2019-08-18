@@ -1,5 +1,5 @@
 import Product from './product.model'
-import { camelCase, get } from 'lodash'
+import { pick, get } from 'lodash'
 
 /* ------------------------------- QUERY ------------------------------- */
 
@@ -16,25 +16,19 @@ const product = async (_, { id }) => {
 
 /* ----------------------------- MUTATION ---------------------------- */
 
-const addProduct = async (
-  _,
-  {
-    name = '',
-    slug: slugInfo = '',
-    description = '',
-    isPublic = false,
-    status = false,
-    releaseDate = new Date()
-  }
-) => {
-  const slug = slugInfo || camelCase(name)
+const addProduct = async (_, args) => {
+  const newProduct = pick(args.input, [
+    'name',
+    'slug',
+    'description',
+    'isPublic',
+    'status',
+    'releaseDate'
+  ])
   const product = await Product.create({
-    name,
-    slug,
-    description,
-    isPublic,
-    status,
-    releaseDate
+    ...newProduct,
+    slug: newProduct.slug || newProduct.name,
+    releaseDate: newProduct.releaseDate || new Date()
   })
   return product
 }
