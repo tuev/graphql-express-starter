@@ -1,6 +1,10 @@
 // import applyMiddleware from '@utils/applyMiddlewares'
 // import { requireAuthorization } from '@middlewares'
 import { get, pick } from 'lodash'
+
+import { BRAND_ADDED, BRAND_UPDATED, BRAND_DELETED } from './brand.constant'
+import { subscriptionCreator } from '@utils'
+
 import Brand from './brand.model'
 import Collection from '../Collection/collection.model'
 import Category from '@modules/Category/category.model'
@@ -21,7 +25,7 @@ const brand = async (_, { id }) => {
 
 /* ----------------------------- MUTATION ---------------------------- */
 
-const addBrand = async (_, args = {}) => {
+const addBrand = async (_, args = {}, context) => {
   const brandInfo = pick(args.input, ['name', 'description'])
   const brandRelation = pick(args, [
     'slug',
@@ -36,24 +40,26 @@ const addBrand = async (_, args = {}) => {
       ...brandRelation,
       slug: brandRelation.slug || brandInfo.name
     })
+    context.pubsub.publish(BRAND_ADDED, result)
+
     return result
   } catch (error) {
     console.error(error)
   }
 }
 
-const deleteBrand = async (_, { id }) => {
+const deleteBrand = async (_, { id }, context) => {
   try {
     const result = await Brand.deleteOne({ _id: id })
     const deleteCount = get(result, 'deletedCount', 0)
-
+    context.pubsub.publish(BRAND_DELETED, id)
     return !!deleteCount
   } catch (error) {
     return false
   }
 }
 
-const updateBrand = async (_, args = {}) => {
+const updateBrand = async (_, args = {}, context) => {
   const brandInfo = pick(args.input, ['name', 'description'])
   const brandRelation = pick(args, [
     'categories',
@@ -69,6 +75,8 @@ const updateBrand = async (_, args = {}) => {
       new: true
     }
   )
+
+  context.pubsub.publish(BRAND_UPDATED, brand)
   return brand
 }
 
@@ -101,6 +109,12 @@ const BrandRelations = {
 
 /* -------------------------------- SUBCRIBE -------------------------------- */
 
+const brandAdded = subscriptionCreator({ name: BRAND_ADDED })
+
+const brandUpdated = subscriptionCreator({ name: BRAND_UPDATED })
+
+const brandDeleted = subscriptionCreator({ name: BRAND_DELETED })
+
 /* -------------------------------------------------------------------------- */
 /*                                   EXPORT                                  */
 /* -------------------------------------------------------------------------- */
@@ -108,6 +122,6 @@ const BrandRelations = {
 export const brandResolvers = {
   Query: { brands, brand },
   Mutation: { addBrand, deleteBrand, updateBrand },
-  Subscription: {},
+  Subscription: { brandAdded, brandUpdated, brandDeleted },
   Brand: BrandRelations
 }

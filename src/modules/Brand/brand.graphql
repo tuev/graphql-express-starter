@@ -29,7 +29,7 @@ extend type Mutation {
     slug: String
   ):Brand!
   updateBrand (
-    input: BrandInput, 
+    input: BrandInput,
     id: ID! @validId(type: BrandId), 
     categories: [ID] @validId(type: CategoryId),
     collections: [ID] @validId(type: CollectionId),
@@ -37,4 +37,10 @@ extend type Mutation {
     images: [ID] @validId(type: ImageId)
   ): Brand!
   deleteBrand(id: ID! @validId(type: BrandId)): Boolean!
+}
+
+extend type Subscription {
+  brandAdded: Brand!
+  brandUpdated: Brand!
+  brandDeleted: ID!
 }
