@@ -27,6 +27,7 @@ const brand = async (_, { id }) => {
 
 const addBrand = async (_, args = {}, context) => {
   const brandInfo = pick(args.input, ['name', 'description'])
+  const slug = get(args, 'slug', brandInfo.name)
   const brandRelation = pick(args, [
     'slug',
     'categories',
@@ -38,7 +39,7 @@ const addBrand = async (_, args = {}, context) => {
     const result = await Brand.create({
       ...brandInfo,
       ...brandRelation,
-      slug: brandRelation.slug || brandInfo.name
+      slug
     })
     context.pubsub.publish(BRAND_ADDED, result)
 
