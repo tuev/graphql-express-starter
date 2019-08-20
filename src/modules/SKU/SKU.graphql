@@ -22,13 +22,6 @@ input SKUInput {
   price: Int!
   discount: Int
   isPublic: Boolean
-  color: ID @validId(type: ColorId)
-  size: ID @validId(type: SizeId)
-  brandType: ID @validId(type: BrandId)
-  collectionType: ID @validId(type: CollectionId)
-  categoryType: ID @validId(type: CategoryId)
-  productType: ID @validId(type: ProductId)
-  images: [ID] @validId(type: ImageId)
 }
 
 extend type Query {
@@ -37,6 +30,33 @@ extend type Query {
 }
 
 extend type Mutation {
-  addSKU(input: SKUInput): SKU!
+  addSKU(
+    input: SKUInput!
+    slug: String
+    color: ID @validId(type: ColorId)
+    size: ID @validId(type: SizeId)
+    brandType: ID @validId(type: BrandId)
+    collectionType: ID @validId(type: CollectionId)
+    categoryType: ID @validId(type: CategoryId)
+    productType: ID @validId(type: ProductId)
+    images: [ID] @validId(type: ImageId)
+  ): SKU!
+  updateSKU(
+    input: SKUInput!
+    id: ID!
+    color: ID @validId(type: ColorId)
+    size: ID @validId(type: SizeId)
+    brandType: ID @validId(type: BrandId)
+    collectionType: ID @validId(type: CollectionId)
+    categoryType: ID @validId(type: CategoryId)
+    productType: ID @validId(type: ProductId)
+    images: [ID] @validId(type: ImageId)
+  ): SKU!
   deleteSKU(id: ID! @validId(type: SKUId)): Boolean
+}
+
+extend type Subscription {
+  SKUAdded: SKU!
+  SKUUpdated: SKU!
+  SKUDeleted: ID!
 }

@@ -1,5 +1,7 @@
 import SKU from './sku.model'
 import { pick, get } from 'lodash'
+import { subscriptionCreator } from '@utils'
+import * as SKUConstant from './SKU.constant'
 
 /* ------------------------------- QUERY ------------------------------- */
 
@@ -15,30 +17,75 @@ const sku = async (_, { id }) => {
 
 /* ----------------------------- MUTATION ---------------------------- */
 
-const addSKU = async (_, args) => {
-  const newSKU = pick(args.input, [
+const addSKU = async (_, args = {}, { pubsub } = {}) => {
+  const SKUInfo = pick(args.input, [
     'name',
-    'slug',
     'quantity',
     'price',
     'discount',
     'isPublic'
   ])
+  const slug = args.slug || SKUInfo.name
+  const SKURelation = pick(args, [
+    'color',
+    'size',
+    'brandType',
+    'collectionType',
+    'categoryType',
+    'productType',
+    'images'
+  ])
   const result = await SKU.create({
-    ...newSKU,
-    slug: newSKU.slug || newSKU.name
+    ...SKUInfo,
+    ...SKURelation,
+    slug
   })
+  pubsub.publish(SKUConstant.SKU_ADDED, result)
   return result
 }
 
-const deleteSKU = async (_, { id }) => {
+const updateSKU = async (_, args = {}, { pubsub } = {}) => {
+  const SKUInfo = pick(args.input, [
+    'name',
+    'quantity',
+    'price',
+    'discount',
+    'isPublic'
+  ])
+  const SKURelation = pick(args, [
+    'color',
+    'size',
+    'brandType',
+    'collectionType',
+    'categoryType',
+    'productType',
+    'images'
+  ])
+  const result = await SKU.findByIdAndUpdate(
+    args.id,
+    {
+      ...SKUInfo,
+      ...SKURelation
+    },
+    { new: true }
+  )
+  pubsub.publish(SKUConstant.SKU_UPDATED, result)
+  return result
+}
+
+const deleteSKU = async (_, { id }, { pubsub } = {}) => {
   const result = await SKU.deleteOne({ _id: id })
+  pubsub.publish(SKUConstant.SKU_DELETED, id)
   return !!get(result, 'deletedCount', false)
 }
 
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
 
-/* ------------------------------ SUBCRIBE ----------------------------- */
+/* -------------------------------- SUBCRIBE -------------------------------- */
+
+const SKUAdded = subscriptionCreator({ name: SKUConstant.SKU_ADDED })
+const SKUUpdated = subscriptionCreator({ name: SKUConstant.SKU_UPDATED })
+const SKUDeleted = subscriptionCreator({ name: SKUConstant.SKU_DELETED })
 
 /* -------------------------------------------------------------------------- */
 /*                                   EXPORT                                   */
@@ -46,6 +93,6 @@ const deleteSKU = async (_, { id }) => {
 
 export const SKUResolvers = {
   Query: { skus, sku },
-  Mutation: { addSKU, deleteSKU },
-  Subscription: {}
+  Mutation: { addSKU, deleteSKU, updateSKU },
+  Subscription: { SKUAdded, SKUUpdated, SKUDeleted }
 }
