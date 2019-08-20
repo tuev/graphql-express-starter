@@ -14,11 +14,11 @@ type Product {
 
 input ProductInput {
   name: String!
-  slug: String
   description: String
   isPublic: Boolean
   status: Boolean
   releaseDate: String
+  rate: Int
 }
 
 extend type Query {
@@ -27,6 +27,21 @@ extend type Query {
 }
 
 extend type Mutation {
-  addProduct(input: ProductInput!): Product!
+  addProduct(
+    input: ProductInput!
+    slug: String
+    SKUs: [ID] @validId(type: SKUId)
+  ): Product!
+  updateProduct(
+    input: ProductInput!
+    id: ID!
+    SKUs: [ID] @validId(type: SKUId)
+  ): Product!
   deleteProduct(id: String!): Boolean
+}
+
+extend type Subscription {
+  productAdded: Product!
+  productUpdated: Product!
+  productDeleted: ID!
 }
