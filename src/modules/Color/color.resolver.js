@@ -3,6 +3,8 @@ import { pick, get } from 'lodash'
 import { subscriptionCreator } from '@utils'
 import * as colorConst from './color.constant'
 
+import SKU from '@modules/SKU/sku.models'
+
 /* ------------------------------- QUERY ------------------------------- */
 
 const colors = async () => {
@@ -52,6 +54,16 @@ const deleteColor = async (_, { id }, { pubsub } = {}) => {
   return !!deletedColor
 }
 
+/* -------------------------------- RELATION -------------------------------- */
+
+const colorRelation = {
+  SKUs: async color => {
+    const skuIdList = get(color, 'SKUs', [])
+    const SKUs = await SKU.find({ _id: { $in: skuIdList } })
+    return SKUs
+  }
+}
+
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
 
 /* -------------------------------- SUBCRIBE -------------------------------- */
@@ -67,5 +79,6 @@ const colorDeleted = subscriptionCreator({ name: colorConst.COLOR_DELETED })
 export const colorResolvers = {
   Query: { colors, color },
   Mutation: { addColor, deleteColor, updateColor },
-  Subscription: { colorAdded, colorUpdated, colorDeleted }
+  Subscription: { colorAdded, colorUpdated, colorDeleted },
+  Color: colorRelation
 }
