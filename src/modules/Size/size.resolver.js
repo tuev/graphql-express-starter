@@ -4,6 +4,8 @@ import { subscriptionCreator } from '@utils'
 import * as sizeConst from './size.constant'
 import { IMAGE_DELETED } from '../Image/image.constant'
 
+import SKU from '@modules/SKU/sku.models'
+
 /* ------------------------------- QUERY ------------------------------- */
 
 const sizes = async () => {
@@ -52,6 +54,18 @@ const deleteSize = async (_, { id }, { pubsub } = {}) => {
   return !!get(result, 'deletedCount', false)
 }
 
+/* -------------------------------- RELATION -------------------------------- */
+
+/* -------------------------------- RELATION -------------------------------- */
+
+const sizeRelation = {
+  SKUs: async size => {
+    const skuIdList = get(size, 'SKUs', [])
+    const SKUs = await SKU.find({ _id: { $in: skuIdList } })
+    return SKUs
+  }
+}
+
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
 
 /* -------------------------------- SUBCRIBE -------------------------------- */
@@ -67,5 +81,6 @@ const sizeDeleted = subscriptionCreator({ name: sizeConst.SIZE_DELETED })
 export const sizeResolvers = {
   Query: { sizes, size },
   Mutation: { addSize, deleteSize, updateSize },
-  Subscription: { sizeAdded, sizeUpdated, sizeDeleted }
+  Subscription: { sizeAdded, sizeUpdated, sizeDeleted },
+  Size: sizeRelation
 }
