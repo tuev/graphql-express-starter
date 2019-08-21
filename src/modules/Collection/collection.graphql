@@ -3,10 +3,10 @@ type Collection {
   name: String!
   slug: Slug!
   description: String
-  Brands: [Brand]
-  Categories: [Category]
+  brands: [Brand]
+  categories: [Category]
   SKUs: [SKU]
-  Images: [Image]
+  images: [Image]
 }
 
 input CollectionInput {

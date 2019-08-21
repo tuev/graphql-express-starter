@@ -6,13 +6,13 @@ type SKU {
   price: Int!
   discount: Int
   isPublic: Boolean
-  color: String
-  size: String
-  Brand: Brand
-  Collection: Collection
-  Category: Category
+  colorType: Color
+  sizeType: Size
+  brandType: Brand
+  bollectionType: Collection
+  categoryType: Category
+  productType: Product
   images: [Image]
-  Product: Product
 }
 
 input SKUInput {

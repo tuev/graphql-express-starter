@@ -3,6 +3,14 @@ import { pick, get } from 'lodash'
 import { subscriptionCreator } from '@utils'
 import * as SKUConstant from './SKU.constant'
 
+import Brand from '@modules/Brand/brand.model'
+import Category from '@modules/Category/category.model'
+import Collection from '@modules/Collection/collection.model'
+import Color from '@modules/Color/color.model'
+import Image from '@modules/Image/image.model'
+import Size from '@modules/Size/size.model'
+import Product from '@modules/Product/product.model'
+
 /* ------------------------------- QUERY ------------------------------- */
 
 const skus = async () => {
@@ -79,6 +87,40 @@ const deleteSKU = async (_, { id }, { pubsub } = {}) => {
   return !!get(result, 'deletedCount', false)
 }
 
+/* -------------------------------- RELATION -------------------------------- */
+
+const SKURelation = {
+  images: async SKU => {
+    const imageIdList = get(SKU, 'images', [])
+    const images = await Image.find({ _id: { $in: imageIdList } })
+    return images
+  },
+  colorType: async SKU => {
+    const color = await Color.findById(SKU.colorType)
+    return color
+  },
+  sizeType: async SKU => {
+    const size = await Size.findById(SKU.sizeType)
+    return size
+  },
+  brandType: async SKU => {
+    const brand = await Brand.findById(SKU.brandType)
+    return brand
+  },
+  bollectionType: async SKU => {
+    const bollection = await Collection.findById(SKU.bollectionType)
+    return bollection
+  },
+  categoryType: async SKU => {
+    const category = await Category.findById(SKU.categoryType)
+    return category
+  },
+  productType: async SKU => {
+    const product = await Product.findById(SKU.productType)
+    return product
+  }
+}
+
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
 
 /* -------------------------------- SUBCRIBE -------------------------------- */
@@ -94,5 +136,6 @@ const SKUDeleted = subscriptionCreator({ name: SKUConstant.SKU_DELETED })
 export const SKUResolvers = {
   Query: { skus, sku },
   Mutation: { addSKU, deleteSKU, updateSKU },
-  Subscription: { SKUAdded, SKUUpdated, SKUDeleted }
+  Subscription: { SKUAdded, SKUUpdated, SKUDeleted },
+  SKU: SKURelation
 }

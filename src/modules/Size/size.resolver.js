@@ -4,7 +4,7 @@ import { subscriptionCreator } from '@utils'
 import * as sizeConst from './size.constant'
 import { IMAGE_DELETED } from '../Image/image.constant'
 
-import SKU from '@modules/SKU/sku.models'
+import SKU from '@modules/SKU/sku.model'
 
 /* ------------------------------- QUERY ------------------------------- */
 

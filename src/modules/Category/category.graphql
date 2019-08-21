@@ -3,10 +3,10 @@ type Category {
   name: String!
   slug: Slug!
   description: String
-  Brands: [Brand]
-  Collections: [Collection]
+  brands: [Brand]
+  collections: [Collection]
   SKUs: [SKU]
-  Images: [Image]
+  images: [Image]
 }
 
 input CategoryInput {

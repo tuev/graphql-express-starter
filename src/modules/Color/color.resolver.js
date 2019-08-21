@@ -3,7 +3,7 @@ import { pick, get } from 'lodash'
 import { subscriptionCreator } from '@utils'
 import * as colorConst from './color.constant'
 
-import SKU from '@modules/SKU/sku.models'
+import SKU from '@modules/SKU/sku.model'
 
 /* ------------------------------- QUERY ------------------------------- */
 
