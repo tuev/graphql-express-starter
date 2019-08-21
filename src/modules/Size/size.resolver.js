@@ -1,5 +1,10 @@
 import Size from './size.model'
 import { pick, get } from 'lodash'
+import { subscriptionCreator } from '@utils'
+import * as sizeConst from './size.constant'
+import { IMAGE_DELETED } from '../Image/image.constant'
+
+import SKU from '@modules/SKU/sku.model'
 
 /* ------------------------------- QUERY ------------------------------- */
 
@@ -15,30 +20,67 @@ const size = async (_, { id }) => {
 
 /* ----------------------------- MUTATION ---------------------------- */
 
-const addSize = async (_, args) => {
-  const newSize = pick(args.input, ['name', 'slug', 'value', 'description'])
+const addSize = async (_, args = {}, { pubsub } = {}) => {
+  const sizeInfo = pick(args.input, ['name', 'value', 'description'])
+  const slug = args.slug || sizeInfo.name
+  const sizeRelation = pick(args, ['SKUs'])
   const result = await Size.create({
-    ...newSize,
-    slug: newSize.slug || newSize.name
+    ...sizeInfo,
+    ...sizeRelation,
+    slug
   })
+  pubsub.publish(sizeConst.SIZE_ADDED, result)
   return result
 }
 
-const deleteSize = async (_, { id }) => {
+const updateSize = async (_, args = {}, { pubsub } = {}) => {
+  const sizeInfo = pick(args.input, ['name', 'value', 'description'])
+  const sizeRelation = pick(args, ['SKUs'])
+  const result = await Size.findByIdAndUpdate(
+    args.id,
+    {
+      ...sizeInfo,
+      ...sizeRelation
+    },
+    { new: true }
+  )
+  pubsub.publish(sizeConst.SIZE_UPDATED, result)
+  return result
+}
+
+const deleteSize = async (_, { id }, { pubsub } = {}) => {
   const result = await Size.deleteOne({ _id: id })
+  pubsub.publish(sizeConst, IMAGE_DELETED, id)
   return !!get(result, 'deletedCount', false)
+}
+
+/* -------------------------------- RELATION -------------------------------- */
+
+/* -------------------------------- RELATION -------------------------------- */
+
+const sizeRelation = {
+  SKUs: async size => {
+    const skuIdList = get(size, 'SKUs', [])
+    const SKUs = await SKU.find({ _id: { $in: skuIdList } })
+    return SKUs
+  }
 }
 
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
 
-/* ------------------------------ SUBCRIBE ----------------------------- */
+/* -------------------------------- SUBCRIBE -------------------------------- */
+
+const sizeAdded = subscriptionCreator({ name: sizeConst.SIZE_ADDED })
+const sizeUpdated = subscriptionCreator({ name: sizeConst.SIZE_UPDATED })
+const sizeDeleted = subscriptionCreator({ name: sizeConst.SIZE_DELETED })
 
 /* -------------------------------------------------------------------------- */
-/*                                   EXPORT                                   */
+/*                                   EXPORT                                  */
 /* -------------------------------------------------------------------------- */
 
 export const sizeResolvers = {
   Query: { sizes, size },
-  Mutation: { addSize, deleteSize },
-  Subscription: {}
+  Mutation: { addSize, deleteSize, updateSize },
+  Subscription: { sizeAdded, sizeUpdated, sizeDeleted },
+  Size: sizeRelation
 }

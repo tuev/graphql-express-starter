@@ -5,11 +5,11 @@ import { get, pick } from 'lodash'
 import { BRAND_ADDED, BRAND_UPDATED, BRAND_DELETED } from './brand.constant'
 import { subscriptionCreator } from '@utils'
 
-import Brand from './brand.model'
-import Collection from '../Collection/collection.model'
+import Brand from '@modules/Brand/brand.model'
+import Collection from '@modules/Collection/collection.model'
 import Category from '@modules/Category/category.model'
 import SKU from '@modules/SKU/sku.model'
-import Image from '../Image/image.model'
+import Image from '@modules/Image/image.model'
 
 /* ------------------------------- QUERY ------------------------------- */
 
@@ -27,6 +27,7 @@ const brand = async (_, { id }) => {
 
 const addBrand = async (_, args = {}, context) => {
   const brandInfo = pick(args.input, ['name', 'description'])
+  const slug = get(args, 'slug', brandInfo.name)
   const brandRelation = pick(args, [
     'slug',
     'categories',
@@ -38,7 +39,7 @@ const addBrand = async (_, args = {}, context) => {
     const result = await Brand.create({
       ...brandInfo,
       ...brandRelation,
-      slug: brandRelation.slug || brandInfo.name
+      slug
     })
     context.pubsub.publish(BRAND_ADDED, result)
 

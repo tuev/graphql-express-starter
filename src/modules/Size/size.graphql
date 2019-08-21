@@ -27,6 +27,21 @@ extend type Query {
 }
 
 extend type Mutation {
-  addSize(input: SizeInput): Size!
+  addSize(
+    input: SizeInput!
+    slug: String
+    SKUs: [ID] @validId(type: SKUId)
+  ): Size!
+  updateSize(
+    input: SizeInput!
+    id: ID!
+    SKUs: [ID] @validId(type: SKUId)
+  ): Size!
   deleteSize(id: ID! @validId(type: SizeId)): Boolean
+}
+
+extend type Subscription {
+  sizeAdded: Size!
+  sizeUpdated: Size!
+  sizeDeleted: ID!
 }

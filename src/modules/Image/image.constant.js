@@ -1,0 +1,3 @@
+export const IMAGE_ADDED = 'IMAGE_ADDED'
+export const IMAGE_UPDATED = 'IMAGE_UPDATED'
+export const IMAGE_DELETED = 'IMAGE_DELETED'

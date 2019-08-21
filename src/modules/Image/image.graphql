@@ -10,7 +10,6 @@ input ImageInput {
   name: String!
   url: String!
   description: String
-  slug: String
 }
 
 extend type Query {
@@ -19,6 +18,13 @@ extend type Query {
 }
 
 extend type Mutation {
-  addImage(input: ImageInput): Image!
+  addImage(input: ImageInput, slug: String): Image!
   deleteImage(id: String!): Boolean
+  updateImage(input: ImageInput, id: ID! @validId(type: ImageId)): Image
+}
+
+extend type Subscription {
+  imageAdded: Image!
+  imageUpdated: Image!
+  imageDeleted: ID!
 }
