@@ -5,11 +5,11 @@ import { get, pick } from 'lodash'
 import { BRAND_ADDED, BRAND_UPDATED, BRAND_DELETED } from './brand.constant'
 import { subscriptionCreator } from '@utils'
 
-import Brand from './brand.model'
-import Collection from '../Collection/collection.model'
+import Brand from '@modules/Brand/brand.model'
+import Collection from '@modules/Collection/collection.model'
 import Category from '@modules/Category/category.model'
 import SKU from '@modules/SKU/sku.model'
-import Image from '../Image/image.model'
+import Image from '@modules/Image/image.model'
 
 /* ------------------------------- QUERY ------------------------------- */
 
