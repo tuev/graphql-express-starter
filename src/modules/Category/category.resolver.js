@@ -1,7 +1,12 @@
-import Category from './category.model'
 import { get, pick } from 'lodash'
 import { subscriptionCreator } from '@utils'
 import * as categoryConst from './category.const'
+
+import Brand from '@modules/Brand/brand.model'
+import Collection from '@modules/Collection/collection.model'
+import Category from '@modules/Category/category.model'
+import SKU from '@modules/SKU/sku.model'
+import Image from '@modules/Image/image.model'
 
 /* ------------------------------- QUERY ------------------------------- */
 
@@ -63,6 +68,31 @@ const deleteCategory = async (_, { id }, { pubsub } = {}) => {
   return !!deletedCount
 }
 
+/* -------------------------------- RELATION -------------------------------- */
+
+const CategoryRelation = {
+  collections: async category => {
+    const collectionIdList = get(category, 'collections', [])
+    const collections = await Collection.find({ _id: { $in: collectionIdList } })
+    return collections
+  },
+  brands: async category => {
+    const brandIdList = get(category, 'brands', [])
+    const brands = await Brand.find({ _id: { $in: brandIdList } })
+    return brands
+  },
+  SKUs: async category => {
+    const skuIdList = get(category, 'SKUs', [])
+    const SKUs = await SKU.find({ _id: { $in: skuIdList } })
+    return SKUs
+  },
+  images: async category => {
+    const imageIdList = get(category, 'images', [])
+    const images = await Image.find({ _id: { $in: imageIdList } })
+    return images
+  }
+}
+
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
 
 /* -------------------------------- SUBCRIBE -------------------------------- */
@@ -84,5 +114,6 @@ const categoryDeleted = subscriptionCreator({
 export const categoryResolvers = {
   Query: { categories, category },
   Mutation: { addCategory, deleteCategory, updateCategory },
-  Subscription: { categoryAdded, categoryUpdated, categoryDeleted }
+  Subscription: { categoryAdded, categoryUpdated, categoryDeleted },
+  Category: CategoryRelation
 }
