@@ -1,7 +1,12 @@
-import Collection from './collection.model'
 import { get, pick } from 'lodash'
 import { subscriptionCreator } from '@utils'
 import * as collectionConst from './collection.constant'
+
+import Brand from '@modules/Brand/brand.model'
+import Collection from '@modules/Collection/collection.model'
+import Category from '@modules/Category/category.model'
+import SKU from '@modules/SKU/sku.model'
+import Image from '@modules/Image/image.model'
 
 /* ------------------------------- QUERY ------------------------------- */
 
@@ -63,6 +68,29 @@ const deleteCollection = async (_, { id }, { pubsub } = {}) => {
   return !!deletedCount
 }
 
+const CollectionRelation = {
+  categories: async collection => {
+    const categoryIdList = get(collection, 'categories', [])
+    const categories = await Category.find({ _id: { $in: categoryIdList } })
+    return categories
+  },
+  brands: async collection => {
+    const brandIdList = get(collection, 'categories', [])
+    const brands = await Brand.find({ _id: { $in: brandIdList } })
+    return brands
+  },
+  SKUs: async collection => {
+    const skuIdList = get(collection, 'SKUs', [])
+    const SKUs = await SKU.find({ _id: { $in: skuIdList } })
+    return SKUs
+  },
+  images: async collection => {
+    const imageIdList = get(collection, 'images', [])
+    const images = await Image.find({ _id: { $in: imageIdList } })
+    return images
+  }
+}
+
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
 
 /* -------------------------------- SUBSCRIBE ------------------------------- */
@@ -84,5 +112,6 @@ const collectionDeleted = subscriptionCreator({
 export const collectionResolvers = {
   Query: { collection, collections },
   Mutation: { addCollection, deleteCollection, updateCollection },
-  Subscription: { collectionAdded, collectionUpdated, collectionDeleted }
+  Subscription: { collectionAdded, collectionUpdated, collectionDeleted },
+  Collection: CollectionRelation
 }
