@@ -3,6 +3,8 @@ import { pick, get } from 'lodash'
 import { subscriptionCreator } from '@utils'
 import * as productConst from './product.constant'
 
+import SKU from '@modules/SKU/sku.models'
+
 /* ------------------------------- QUERY ------------------------------- */
 
 const products = async () => {
@@ -65,6 +67,16 @@ const deleteProduct = async (_, { id }, { pubsub } = {}) => {
   return !!get(result, 'deletedCount', false)
 }
 
+/* -------------------------------- RELATION -------------------------------- */
+
+const productRelation = {
+  SKUs: async product => {
+    const skuIdList = get(product, 'SKUs', [])
+    const SKUs = await SKU.find({ _id: { $in: skuIdList } })
+    return SKUs
+  }
+}
+
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
 
 /* -------------------------------- SUBCRIBE -------------------------------- */
@@ -80,5 +92,6 @@ const productDeleted = subscriptionCreator({ name: productConst.PRODUCT_DELETED 
 export const productResolvers = {
   Query: { products, product },
   Mutation: { addProduct, deleteProduct, updateProduct },
-  Subscription: { productAdded, productUpdated, productDeleted }
+  Subscription: { productAdded, productUpdated, productDeleted },
+  Product: productRelation
 }
