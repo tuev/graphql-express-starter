@@ -1,0 +1,3 @@
+export const COLOR_ADDED = 'COLOR_ADDED'
+export const COLOR_UPDATED = 'COLOR_UPDATED'
+export const COLOR_DELETED = 'COLOR_DELETED'

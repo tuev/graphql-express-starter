@@ -14,11 +14,11 @@ const sizeSchema = new Schema(
     },
     value: {
       type: String,
-      enum: ['S', 'M', 'L', 'XL', 'XXL'],
+      enum: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
       default: 'M'
     },
-    description: String,
-    SKUs: [Schema.Types.ObjectId]
+    description: String
+    // SKUs: [Schema.Types.ObjectId],
   },
   { timestamps: true }
 )

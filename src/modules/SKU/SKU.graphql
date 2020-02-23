@@ -6,13 +6,13 @@ type SKU {
   price: Int!
   discount: Int
   isPublic: Boolean
-  color: String
-  size: String
-  Brand: Brand
-  Collection: Collection
-  Category: Category
+  colorType: Color
+  sizeType: Size
+  brandType: Brand
+  bollectionType: Collection
+  categoryType: Category
+  productType: Product
   images: [Image]
-  Product: Product
 }
 
 input SKUInput {
@@ -22,13 +22,6 @@ input SKUInput {
   price: Int!
   discount: Int
   isPublic: Boolean
-  color: ID @validId(type: ColorId)
-  size: ID @validId(type: SizeId)
-  brandType: ID @validId(type: BrandId)
-  collectionType: ID @validId(type: CollectionId)
-  categoryType: ID @validId(type: CategoryId)
-  productType: ID @validId(type: ProductId)
-  images: [ID] @validId(type: ImageId)
 }
 
 extend type Query {
@@ -37,6 +30,41 @@ extend type Query {
 }
 
 extend type Mutation {
-  addSKU(input: SKUInput): SKU!
+  addSKU(
+    input: SKUInput!
+    slug: String
+    color: ID @validId(type: ColorId)
+    size: ID @validId(type: SizeId)
+    brandType: ID @validId(type: BrandId)
+    collectionType: ID @validId(type: CollectionId)
+    categoryType: ID @validId(type: CategoryId)
+    productType: ID @validId(type: ProductId)
+    images: [ID] @validId(type: ImageId)
+  ): SKU!
+  fakeSKU(
+    quantity: Int
+    size: ID @validId(type: SizeId)
+    brand: ID @validId(type: BrandId)
+    collection: ID @validId(type: CollectionId)
+    category: ID @validId(type: CategoryId)
+    product: ID @validId(type: ProductId)
+  ): [SKU]
+  updateSKU(
+    input: SKUInput!
+    id: ID!
+    color: ID @validId(type: ColorId)
+    size: ID @validId(type: SizeId)
+    brandType: ID @validId(type: BrandId)
+    collectionType: ID @validId(type: CollectionId)
+    categoryType: ID @validId(type: CategoryId)
+    productType: ID @validId(type: ProductId)
+    images: [ID] @validId(type: ImageId)
+  ): SKU!
   deleteSKU(id: ID! @validId(type: SKUId)): Boolean
+}
+
+extend type Subscription {
+  SKUAdded: SKU!
+  SKUUpdated: SKU!
+  SKUDeleted: ID!
 }

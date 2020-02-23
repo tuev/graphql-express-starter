@@ -7,12 +7,12 @@ stages:
     if: branch != master
   - test
 language: node_js
-node_js: 
-  - 'stable'
+node_js:
+  - 10
 addons:
   apt:
     packages:
-    - libnotify-bin
+      - libnotify-bin
 install: true
 before_script: npm install -g npm@5.8.0
 before_install: |
@@ -23,10 +23,10 @@ before_install: |
   export PATH=~/npm/node_modules/.bin:$PATH
 cache:
   directories:
-  - "~/.npm"
+    - "~/.npm"
 jobs:
   include:
-    - &test 
+    - &test
       stage: test
       install:
         - npm install -g mocha-webpack
@@ -39,22 +39,22 @@ jobs:
           - ~/.npm
           - node_modules
     - <<: *test
-      node_js: '8'
+      node_js: "8"
       if: branch != master
     - <<: *test
-      node_js: '10'
+      node_js: "10"
       if: branch != master
     - stage: lint
       before_install: true
       install:
-      - npm install -g standard
-      - npm install -g snazzy
+        - npm install -g standard
+        - npm install -g snazzy
       script: npm run lint
     - &smoke
       stage: smoke
       env: null
       before_install: true
-      install: 
+      install:
         - npm install -g mocha
         - npm install --production --no-shrinkwrap
       script: mocha --no-config --reporter spec test/sanity/sanity.spec.js
@@ -63,16 +63,16 @@ jobs:
           - ~/.npm
           - node_modules
     - <<: *smoke
-      node_js: '10'
+      node_js: "10"
     - <<: *smoke
-      node_js: '8'
+      node_js: "8"
     - stage: precache
       script: true
 after_success: npm run coverage
 services: mongodb
 sudo: false
 before_deploy:
-- rm -rf node_modules
+  - rm -rf node_modules
 deploy:
   provider: heroku
   api_key:

@@ -11,7 +11,6 @@ input ColorInput {
   name: String!
   value: String!
   description: String
-  SKUs: [ID!] @validId(type: SKUId)
 }
 
 extend type Query {
@@ -20,6 +19,22 @@ extend type Query {
 }
 
 extend type Mutation {
-  addColor(input: ColorInput): Color!
+  addColor(
+    input: ColorInput
+    SKUs: [ID!] @validId(type: SKUId)
+    slug: String
+  ): Color!
+  fakeColor(quantity: Int): [Color]
+  updateColor(
+    input: ColorInput
+    id: ID! @validId(type: ColorId)
+    SKUs: [ID!] @validId(type: SKUId)
+  ): Color!
   deleteColor(id: ID! @validId(type: ColorId)): Boolean
+}
+
+extend type Subscription {
+  colorAdded: Color!
+  colorUpdated: Color!
+  colorDeleted: ID!
 }

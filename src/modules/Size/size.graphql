@@ -12,7 +12,7 @@ type Size {
   slug: Slug!
   value: SIZE_VALUE
   description: String
-  SKUs: [SKU]
+  # SKUs: [SKU]
 }
 
 input SizeInput {
@@ -27,6 +27,20 @@ extend type Query {
 }
 
 extend type Mutation {
-  addSize(input: SizeInput): Size!
+  addSize(
+    input: SizeInput!
+    slug: String # SKUs: [ID] @validId(type: SKUId)
+  ): Size!
+  fakeSize(quantity: Int): [Size]
+  updateSize(
+    input: SizeInput!
+    id: ID! # SKUs: [ID] @validId(type: SKUId)
+  ): Size!
   deleteSize(id: ID! @validId(type: SizeId)): Boolean
+}
+
+extend type Subscription {
+  sizeAdded: Size!
+  sizeUpdated: Size!
+  sizeDeleted: ID!
 }

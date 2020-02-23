@@ -9,16 +9,16 @@ type Product {
   status: Boolean
   releaseDate: String
   rate: Int
-  SKUs: [SKU]
+  # SKUs: [SKU]
 }
 
 input ProductInput {
   name: String!
-  slug: String
   description: String
   isPublic: Boolean
   status: Boolean
   releaseDate: String
+  rate: Int
 }
 
 extend type Query {
@@ -27,6 +27,22 @@ extend type Query {
 }
 
 extend type Mutation {
-  addProduct(input: ProductInput!): Product!
+  addProduct(
+    input: ProductInput!
+    slug: String
+  ): # SKUs: [ID] @validId(type: SKUId)
+  Product!
+  fakeProduction(quantity: Int): [Product]
+  updateProduct(
+    input: ProductInput!
+    id: ID!
+  ): # SKUs: [ID] @validId(type: SKUId)
+  Product!
   deleteProduct(id: String!): Boolean
+}
+
+extend type Subscription {
+  productAdded: Product!
+  productUpdated: Product!
+  productDeleted: ID!
 }

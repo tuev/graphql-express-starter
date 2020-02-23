@@ -13,10 +13,10 @@ const categorySchema = new Schema(
       required: true
     },
     description: String,
-    images: [Schema.Types.ObjectId],
-    brands: [Schema.Types.ObjectId],
-    collections: [Schema.Types.ObjectId],
-    SKUs: [Schema.Types.ObjectId]
+    images: [Schema.Types.ObjectId]
+    // brands: [Schema.Types.ObjectId],
+    // collections: [Schema.Types.ObjectId],
+    // SKUs: [Schema.Types.ObjectId]
   },
   { timestamps: true }
 )

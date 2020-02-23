@@ -3,20 +3,15 @@ type Category {
   name: String!
   slug: Slug!
   description: String
-  Brands: [Brand]
-  Collections: [Collection]
-  SKUs: [SKU]
-  Images: [Image]
+  # brands: [Brand]
+  # collections: [Collection]
+  # SKUs: [SKU]
+  images: [Image]
 }
 
 input CategoryInput {
   name: String!
   description: String
-  slug: String
-  brands: [ID] @validId(type: BrandId)
-  collections: [ID] @validId(type: CollectionId)
-  SKUs: [ID] @validId(type: SKUId)
-  images: [ID] @validId(type: ImageId)
 }
 
 extend type Query {
@@ -25,6 +20,28 @@ extend type Query {
 }
 
 extend type Mutation {
-  addCategory(input: CategoryInput): Category
+  addCategory(
+    input: CategoryInput
+    slug: String
+    # brands: [ID] @validId(type: BrandId)
+    # collections: [ID] @validId(type: CollectionId)
+    # SKUs: [ID] @validId(type: SKUId)
+    images: [ID] @validId(type: ImageId)
+  ): Category!
+  fakeCategory(quantity: Int): [Category]
+  updateCategory(
+    input: CategoryInput
+    id: ID @validId(type: CategoryId)
+    # brands: [ID] @validId(type: BrandId)
+    # collections: [ID] @validId(type: CollectionId)
+    # SKUs: [ID] @validId(type: SKUId)
+    images: [ID] @validId(type: ImageId)
+  ): Category!
   deleteCategory(id: ID! @validId(type: CategoryId)): Boolean
+}
+
+extend type Subscription {
+  categoryAdded: Category!
+  categoryUpdated: Category!
+  categoryDeleted: ID!
 }

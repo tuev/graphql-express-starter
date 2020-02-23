@@ -3,6 +3,7 @@ import resolvers from './graphql.resolver'
 import schemaDirectives from '@directives'
 import typeDefs from './graphql.typeDefs'
 import { PubSub } from 'graphql-subscriptions'
+import depthLimit from 'graphql-depth-limit'
 
 // Pubsub can be replaced by some below method:
 //  - Redis
@@ -20,6 +21,7 @@ export const graphQLRouter = new ApolloServer({
   resolvers,
   schemaDirectives,
   context: req => ({ ...req, pubsub }),
+  validationRules: [depthLimit(3)],
   // Ws Hook for subscription
   subscriptions: {
     onConnect: (connectionParams, webSocket, context) => {
