@@ -9,7 +9,7 @@ type Product {
   status: Boolean
   releaseDate: String
   rate: Int
-  SKUs: [SKU]
+  # SKUs: [SKU]
 }
 
 input ProductInput {
@@ -30,13 +30,14 @@ extend type Mutation {
   addProduct(
     input: ProductInput!
     slug: String
-    SKUs: [ID] @validId(type: SKUId)
-  ): Product!
+  ): # SKUs: [ID] @validId(type: SKUId)
+  Product!
+  fakeProduction(quantity: Int): [Product]
   updateProduct(
     input: ProductInput!
     id: ID!
-    SKUs: [ID] @validId(type: SKUId)
-  ): Product!
+  ): # SKUs: [ID] @validId(type: SKUId)
+  Product!
   deleteProduct(id: String!): Boolean
 }
 

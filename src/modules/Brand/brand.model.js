@@ -13,10 +13,10 @@ const brandSchema = new Schema(
       required: true
     },
     description: String,
-    collections: [Schema.Types.ObjectId],
-    categories: [Schema.Types.ObjectId],
-    images: [Schema.Types.ObjectId],
-    SKUs: [Schema.Types.ObjectId]
+    // collections: [Schema.Types.ObjectId],
+    // categories: [Schema.Types.ObjectId],
+    images: [Schema.Types.ObjectId]
+    // SKUs: [Schema.Types.ObjectId]
   },
   { timestamps: true }
 )

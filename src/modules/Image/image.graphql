@@ -19,6 +19,7 @@ extend type Query {
 
 extend type Mutation {
   addImage(input: ImageInput, slug: String): Image!
+  fakeImage(quantity: Int): [Image]
   deleteImage(id: String!): Boolean
   updateImage(input: ImageInput, id: ID! @validId(type: ImageId)): Image
 }

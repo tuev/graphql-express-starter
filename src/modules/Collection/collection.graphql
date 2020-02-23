@@ -3,9 +3,9 @@ type Collection {
   name: String!
   slug: Slug!
   description: String
-  brands: [Brand]
-  categories: [Category]
-  SKUs: [SKU]
+  # brands: [Brand]
+  # categories: [Category]
+  # SKUs: [SKU]
   images: [Image]
 }
 
@@ -23,17 +23,18 @@ extend type Mutation {
   addCollection(
     input: CollectionInput!
     slug: String
-    brands: [ID!] @validId(type: BrandId)
-    categories: [ID] @validId(type: CategoryId)
-    SKUs: [ID] @validId(type: SKUId)
+    # brands: [ID!] @validId(type: BrandId)
+    # categories: [ID] @validId(type: CategoryId)
+    # SKUs: [ID] @validId(type: SKUId)
     images: [ID] @validId(type: ImageId)
   ): Collection!
+  fakeCollection(quantity: Int): [Collection]
   updateCollection(
     input: CollectionInput!
     id: ID!
-    brands: [ID!] @validId(type: BrandId)
-    categories: [ID] @validId(type: CategoryId)
-    SKUs: [ID] @validId(type: SKUId)
+    # brands: [ID!] @validId(type: BrandId)
+    # categories: [ID] @validId(type: CategoryId)
+    # SKUs: [ID] @validId(type: SKUId)
     images: [ID] @validId(type: ImageId)
   ): Collection!
   deleteCollection(id: ID! @validId(type: CollectionId)): Boolean!

@@ -13,10 +13,10 @@ const collectionSchema = new Schema(
       required: true
     },
     url: String,
-    brands: [Schema.Types.ObjectId],
-    categories: [Schema.Types.ObjectId],
-    images: [Schema.Types.ObjectId],
-    SKUs: [Schema.Types.ObjectId]
+    // brands: [Schema.Types.ObjectId],
+    // categories: [Schema.Types.ObjectId],
+    images: [Schema.Types.ObjectId]
+    // SKUs: [Schema.Types.ObjectId]
   },
   { timestamps: true }
 )

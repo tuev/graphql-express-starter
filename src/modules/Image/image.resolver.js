@@ -2,6 +2,7 @@ import Image from './image.model'
 import { pick, get } from 'lodash'
 import { subscriptionCreator } from '@utils'
 import * as imageConst from './image.constant'
+import fakeImg from './fake'
 
 /* ------------------------------- QUERY ------------------------------- */
 
@@ -16,6 +17,24 @@ const image = async (_, { id }) => {
 }
 
 /* ----------------------------- MUTATION ---------------------------- */
+
+const fakeImage = async (_, args = {}) => {
+  const result = []
+  const quantity = get(args, 'quantity', 10)
+  for (let i = 0; i < quantity; i++) {
+    const newImage = fakeImg()
+    try {
+      const isImageExist = await Image.count({ slug: newImage.slug })
+      console.log(isImageExist, newImage)
+      if (!isImageExist) {
+        const image = await Image.create(newImage)
+        result.push(image)
+      }
+    } catch (error) {}
+  }
+
+  return result
+}
 
 const addImage = async (_, args = {}, { pubsub }) => {
   const newImage = pick(args.input, ['name', 'url', 'description'])
@@ -62,6 +81,6 @@ const imageDeleted = subscriptionCreator({ name: imageConst.IMAGE_DELETED })
 
 export const imageResolvers = {
   Query: { images, image },
-  Mutation: { addImage, deleteImage, updateImage },
+  Mutation: { addImage, deleteImage, updateImage, fakeImage },
   Subscription: { imageAdded, imageUpdated, imageDeleted }
 }

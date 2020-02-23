@@ -3,8 +3,9 @@ import { pick, get } from 'lodash'
 import { subscriptionCreator } from '@utils'
 import * as sizeConst from './size.constant'
 import { IMAGE_DELETED } from '../Image/image.constant'
+import fakeSz from './fake'
 
-import SKU from '@modules/SKU/sku.model'
+// import SKU from '@modules/SKU/sku.model'
 
 /* ------------------------------- QUERY ------------------------------- */
 
@@ -19,6 +20,23 @@ const size = async (_, { id }) => {
 }
 
 /* ----------------------------- MUTATION ---------------------------- */
+
+const fakeSize = async (_, args = {}) => {
+  const result = []
+  const quantity = get(args, 'quantity', 10)
+  for (let i = 0; i < quantity; i++) {
+    const newSize = fakeSz()
+    try {
+      const isSizeExist = await Size.count({ slug: newSize.slug })
+      if (!isSizeExist) {
+        const size = await Size.create(newSize)
+        result.push(size)
+      }
+    } catch (error) {}
+  }
+
+  return result
+}
 
 const addSize = async (_, args = {}, { pubsub } = {}) => {
   const sizeInfo = pick(args.input, ['name', 'value', 'description'])
@@ -59,11 +77,11 @@ const deleteSize = async (_, { id }, { pubsub } = {}) => {
 /* -------------------------------- RELATION -------------------------------- */
 
 const sizeRelation = {
-  SKUs: async size => {
-    const skuIdList = get(size, 'SKUs', [])
-    const SKUs = await SKU.find({ _id: { $in: skuIdList } })
-    return SKUs
-  }
+  // SKUs: async size => {
+  //   const skuIdList = get(size, 'SKUs', [])
+  //   const SKUs = await SKU.find({ _id: { $in: skuIdList } })
+  //   return SKUs
+  // },
 }
 
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
@@ -80,7 +98,7 @@ const sizeDeleted = subscriptionCreator({ name: sizeConst.SIZE_DELETED })
 
 export const sizeResolvers = {
   Query: { sizes, size },
-  Mutation: { addSize, deleteSize, updateSize },
+  Mutation: { addSize, deleteSize, updateSize, fakeSize },
   Subscription: { sizeAdded, sizeUpdated, sizeDeleted },
   Size: sizeRelation
 }

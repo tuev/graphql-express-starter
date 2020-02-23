@@ -3,7 +3,7 @@ import { pick, get } from 'lodash'
 import { subscriptionCreator } from '@utils'
 import * as productConst from './product.constant'
 
-import SKU from '@modules/SKU/sku.model'
+import fakePr from './fake'
 
 /* ------------------------------- QUERY ------------------------------- */
 
@@ -18,6 +18,25 @@ const product = async (_, { id }) => {
 }
 
 /* ----------------------------- MUTATION ---------------------------- */
+const fakeProduction = async (_, args = {}) => {
+  const result = []
+  // const SKUs = await SKU.find({}).select('_id')
+  const quantity = get(args, 'quantity', 10)
+  for (let i = 0; i < quantity; i++) {
+    const newProduction = fakePr()
+    try {
+      const isProductionExist = await Product.count({
+        slug: newProduction.slug
+      })
+      if (!isProductionExist) {
+        const production = await Product.create(newProduction)
+        result.push(production)
+      }
+    } catch (error) {}
+  }
+
+  return result
+}
 
 const addProduct = async (_, args = {}, { pubsub } = {}) => {
   const productInfo = pick(args.input, [
@@ -27,7 +46,9 @@ const addProduct = async (_, args = {}, { pubsub } = {}) => {
     'status',
     'releaseDate'
   ])
-  const productRelation = pick(args, ['SKUs'])
+  const productRelation = pick(args, [
+    // 'SKUs'
+  ])
   const slug = args.slug || productInfo.name
   const product = await Product.create({
     ...productInfo,
@@ -47,7 +68,9 @@ const updateProduct = async (_, args = {}, { pubsub } = {}) => {
     'status',
     'releaseDate'
   ])
-  const productRelation = pick(args, ['SKUs'])
+  const productRelation = pick(args, [
+    // 'SKUs'
+  ])
   const product = await Product.findByIdAndUpdate(
     args.id,
     {
@@ -70,11 +93,11 @@ const deleteProduct = async (_, { id }, { pubsub } = {}) => {
 /* -------------------------------- RELATION -------------------------------- */
 
 const productRelation = {
-  SKUs: async product => {
-    const skuIdList = get(product, 'SKUs', [])
-    const SKUs = await SKU.find({ _id: { $in: skuIdList } })
-    return SKUs
-  }
+  // SKUs: async product => {
+  //   const skuIdList = get(product, 'SKUs', [])
+  //   const SKUs = await SKU.find({ _id: { $in: skuIdList } })
+  //   return SKUs
+  // },
 }
 
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
@@ -82,8 +105,12 @@ const productRelation = {
 /* -------------------------------- SUBCRIBE -------------------------------- */
 
 const productAdded = subscriptionCreator({ name: productConst.PRODUCT_ADDED })
-const productUpdated = subscriptionCreator({ name: productConst.PRODUCT_UPDATED })
-const productDeleted = subscriptionCreator({ name: productConst.PRODUCT_DELETED })
+const productUpdated = subscriptionCreator({
+  name: productConst.PRODUCT_UPDATED
+})
+const productDeleted = subscriptionCreator({
+  name: productConst.PRODUCT_DELETED
+})
 
 /* -------------------------------------------------------------------------- */
 /*                                   EXPORT                                   */
@@ -91,7 +118,7 @@ const productDeleted = subscriptionCreator({ name: productConst.PRODUCT_DELETED 
 
 export const productResolvers = {
   Query: { products, product },
-  Mutation: { addProduct, deleteProduct, updateProduct },
+  Mutation: { addProduct, deleteProduct, updateProduct, fakeProduction },
   Subscription: { productAdded, productUpdated, productDeleted },
   Product: productRelation
 }

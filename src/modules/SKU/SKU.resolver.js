@@ -11,6 +11,9 @@ import Image from '@modules/Image/image.model'
 import Size from '@modules/Size/size.model'
 import Product from '@modules/Product/product.model'
 
+import fakeS from './fake'
+import faker from 'faker'
+
 /* ------------------------------- QUERY ------------------------------- */
 
 const skus = async () => {
@@ -24,6 +27,58 @@ const sku = async (_, { id }) => {
 }
 
 /* ----------------------------- MUTATION ---------------------------- */
+
+const fakeSKU = async (_, args = {}) => {
+  const result = []
+  const size = await Size.find({})
+    .limit(20)
+    .select('_id')
+  const brand = await Brand.find({})
+    .limit(20)
+    .select('_id')
+  const collection = await Collection.find({})
+    .limit(20)
+    .select('_id')
+  const category = await Category.find({})
+    .limit(20)
+    .select('_id')
+  const product = await Product.find({})
+    .limit(20)
+    .select('_id')
+  const image = await Image.find({})
+    .limit(20)
+    .select('_id')
+
+  const params = pick(args, [
+    'size',
+    'brand',
+    'collection',
+    'category',
+    'product'
+  ])
+  const quantity = get(args, 'quantity', 10)
+  for (let i = 0; i < quantity; i++) {
+    const newProduction = fakeS({
+      images: image,
+      size: params.size || faker.random.arrayElement(size),
+      brand: params.brand || faker.random.arrayElement(brand),
+      collection: params.collection || faker.random.arrayElement(collection),
+      category: params.category || faker.random.arrayElement(category),
+      product: params.product || faker.random.arrayElement(product)
+    })
+    try {
+      const isProductionExist = await SKU.count({
+        slug: newProduction.slug
+      })
+      if (!isProductionExist) {
+        const production = await SKU.create(newProduction)
+        result.push(production)
+      }
+    } catch (error) {}
+  }
+
+  return result
+}
 
 const addSKU = async (_, args = {}, { pubsub } = {}) => {
   const SKUInfo = pick(args.input, [
@@ -135,7 +190,7 @@ const SKUDeleted = subscriptionCreator({ name: SKUConstant.SKU_DELETED })
 
 export const SKUResolvers = {
   Query: { skus, sku },
-  Mutation: { addSKU, deleteSKU, updateSKU },
+  Mutation: { addSKU, deleteSKU, updateSKU, fakeSKU },
   Subscription: { SKUAdded, SKUUpdated, SKUDeleted },
   SKU: SKURelation
 }

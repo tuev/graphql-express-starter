@@ -24,6 +24,7 @@ extend type Mutation {
     SKUs: [ID!] @validId(type: SKUId)
     slug: String
   ): Color!
+  fakeColor(quantity: Int): [Color]
   updateColor(
     input: ColorInput
     id: ID! @validId(type: ColorId)

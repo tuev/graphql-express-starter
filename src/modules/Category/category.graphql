@@ -3,9 +3,9 @@ type Category {
   name: String!
   slug: Slug!
   description: String
-  brands: [Brand]
-  collections: [Collection]
-  SKUs: [SKU]
+  # brands: [Brand]
+  # collections: [Collection]
+  # SKUs: [SKU]
   images: [Image]
 }
 
@@ -23,17 +23,18 @@ extend type Mutation {
   addCategory(
     input: CategoryInput
     slug: String
-    brands: [ID] @validId(type: BrandId)
-    collections: [ID] @validId(type: CollectionId)
-    SKUs: [ID] @validId(type: SKUId)
+    # brands: [ID] @validId(type: BrandId)
+    # collections: [ID] @validId(type: CollectionId)
+    # SKUs: [ID] @validId(type: SKUId)
     images: [ID] @validId(type: ImageId)
   ): Category!
+  fakeCategory(quantity: Int): [Category]
   updateCategory(
     input: CategoryInput
     id: ID @validId(type: CategoryId)
-    brands: [ID] @validId(type: BrandId)
-    collections: [ID] @validId(type: CollectionId)
-    SKUs: [ID] @validId(type: SKUId)
+    # brands: [ID] @validId(type: BrandId)
+    # collections: [ID] @validId(type: CollectionId)
+    # SKUs: [ID] @validId(type: SKUId)
     images: [ID] @validId(type: ImageId)
   ): Category!
   deleteCategory(id: ID! @validId(type: CategoryId)): Boolean

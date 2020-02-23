@@ -41,6 +41,14 @@ extend type Mutation {
     productType: ID @validId(type: ProductId)
     images: [ID] @validId(type: ImageId)
   ): SKU!
+  fakeSKU(
+    quantity: Int
+    size: ID @validId(type: SizeId)
+    brand: ID @validId(type: BrandId)
+    collection: ID @validId(type: CollectionId)
+    category: ID @validId(type: CategoryId)
+    product: ID @validId(type: ProductId)
+  ): [SKU]
   updateSKU(
     input: SKUInput!
     id: ID!

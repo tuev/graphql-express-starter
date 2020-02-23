@@ -33,8 +33,8 @@ const productSchema = new Schema(
     rate: {
       type: Number,
       default: 0
-    },
-    SKUs: [Schema.Types.ObjectId]
+    }
+    // SKUs: [Schema.Types.ObjectId]
   },
   { timestamps: true }
 )
