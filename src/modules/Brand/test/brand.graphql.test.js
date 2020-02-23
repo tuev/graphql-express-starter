@@ -14,7 +14,7 @@ describe('Brand graphql test', () => {
             brands{
               id
              }
-           }`,
+           }`
       })
       .expect(200)
       .end((err, res) => {
@@ -38,7 +38,7 @@ describe('Brand graphql test', () => {
             brand(id: "${findBrand._id}"){
               id
              }
-           }`,
+           }`
       })
 
     const status = result.status
@@ -55,7 +55,7 @@ describe('Brand graphql test', () => {
       .send({
         query:
           'mutation($name: String!, $description: String!) {\n  addBrand(input: {name: $name, description: $description} ){\n    id\n  }\n}\n',
-        variables: { name: 'test brand', description: 'test description' },
+        variables: { name: 'test brand', description: 'test description' }
       })
       .expect(200)
       .end((err, res) => {
@@ -79,7 +79,7 @@ describe('Brand graphql test', () => {
         query: `
           mutation{
             deleteBrand(id: "${newBrand._id}")
-           }`,
+           }`
       })
     const status = result.status
     expect(status).to.be.equal(200)
@@ -93,21 +93,21 @@ describe('Brand graphql test', () => {
     // const collectionId = '5d260d58fba1a8859baff6f7'
     // const categoryId = '5d260cf175e207847d770738'
 
-    const updateData = {
-      id: '5d252dcb0d91cf7372bf0aa7',
-      name: 'test brand',
-      description: 'brand description',
-      // collections: [collectionId],
-      images: [imageId],
-      // categories: [categoryId]
-    }
+    // const updateData = {
+    //   id: '5d252dcb0d91cf7372bf0aa7',
+    //   name: 'test brand',
+    //   description: 'brand description',
+    //   // collections: [collectionId],
+    //   images: [imageId]
+    //   // categories: [categoryId]
+    // }
     chai
       .sendLocalRequest()
       .post('/graphql')
       .set('Accept', 'application/json')
       .send({
         query:
-          'mutation{\n  updateBrand(id: "5e527dd41ba6a004dca6c2c7", input: {description: "new dr"}) {\n    id\n  name\n  }\n}"}',
+          'mutation{\n  updateBrand(id: "5e527dd41ba6a004dca6c2c7", input: {description: "new dr"}) {\n    id\n  name\n  }\n}"}'
         // variables: updateData,
       })
       .expect(200)
