@@ -47,7 +47,7 @@ jobs:
     - stage: lint
       before_install: true
       install:
-        - npm install -g standard
+        - npm install -g prettier
         - npm install -g snazzy
       script: npm run lint
     - &smoke
