@@ -1,13 +1,17 @@
 import { SchemaDirectiveVisitor } from 'graphql-tools'
-import { defaultFieldResolver, GraphQLScalarType, GraphQLNonNull } from 'graphql'
+import {
+  defaultFieldResolver,
+  GraphQLScalarType,
+  GraphQLNonNull,
+} from 'graphql'
 import { ApolloError } from 'apollo-server-express'
 import { EmailType, emailRegEx } from '@scalars/Email'
 
 class EmailDirective extends SchemaDirectiveVisitor {
-  visitFieldDefinition (field) {
+  visitFieldDefinition(field) {
     this.wrapType(field)
     const { resolve = defaultFieldResolver } = field
-    field.resolve = async function (source, args, context, info) {
+    field.resolve = async function(source, args, context, info) {
       const email = await resolve(source, args, context, info)
       if (emailRegEx.test(email)) {
         return email
@@ -16,15 +20,15 @@ class EmailDirective extends SchemaDirectiveVisitor {
     }
   }
 
-  visitInputFieldDefinition (field) {
+  visitInputFieldDefinition(field) {
     this.wrapType(field)
   }
 
-  visitArgumentDefinition (argument) {
+  visitArgumentDefinition(argument) {
     this.wrapType(argument)
   }
 
-  wrapType (field) {
+  wrapType(field) {
     console.log(field, 'field')
     if (
       field.type instanceof GraphQLNonNull &&
@@ -40,5 +44,5 @@ class EmailDirective extends SchemaDirectiveVisitor {
 }
 
 export const emailDirectives = {
-  email: EmailDirective
+  email: EmailDirective,
 }

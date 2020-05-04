@@ -3,7 +3,7 @@ import { ApolloError } from 'apollo-server-express'
 export const emailRegEx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 
 class EmailType extends GraphQLScalarType {
-  constructor (type) {
+  constructor(type) {
     super({
       name: 'Email',
       parseValue: value => type.parseValue(value),
@@ -16,7 +16,7 @@ class EmailType extends GraphQLScalarType {
           'Email address failed validation',
           'INVALID_EMAIL'
         )
-      }
+      },
     })
   }
 }
@@ -24,5 +24,5 @@ class EmailType extends GraphQLScalarType {
 export { EmailType }
 
 export const emailScalar = {
-  Email: new EmailType(GraphQLString)
+  Email: new EmailType(GraphQLString),
 }

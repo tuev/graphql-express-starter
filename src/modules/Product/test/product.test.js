@@ -14,7 +14,7 @@ describe('product graphql test', () => {
             products{
               id
              }
-           }`
+           }`,
       })
       .expect(200)
       .end((err, res) => {
@@ -37,7 +37,7 @@ describe('product graphql test', () => {
             product(id: "${findproduct._id}"){
               id
              }
-           }`
+           }`,
       })
 
     const status = result.status
@@ -52,7 +52,7 @@ describe('product graphql test', () => {
       slug: 'testSize',
       description: 'testSize',
       isPublic: 'testSize',
-      status: false
+      status: false,
     }
     const result = await chai
       .sendLocalRequest()
@@ -61,7 +61,7 @@ describe('product graphql test', () => {
       .send({
         query:
           'mutation ($name: String!, $description: String!) {\n  addProduct(input: {name: $name, description: $description}) {\n    id\n  }\n}\n',
-        variables: newProduct
+        variables: newProduct,
       })
     expect(result.status).is.equal(200)
     const data = result.body.data
@@ -79,7 +79,7 @@ describe('product graphql test', () => {
         query: `
           mutation{
             deleteProduct(id: "${newproduct._id}")
-           }`
+           }`,
       })
     const status = result.status
     expect(status).to.be.equal(200)

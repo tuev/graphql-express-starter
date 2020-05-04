@@ -50,13 +50,13 @@ const addBrand = async (_, args = {}, context) => {
     // 'categories',
     // 'collections',
     // 'SKUs',
-    'images'
+    'images',
   ])
   try {
     const result = await Brand.create({
       ...brandInfo,
       ...brandRelation,
-      slug
+      slug,
     })
     context.pubsub.publish(BRAND_ADDED, result)
 
@@ -84,14 +84,14 @@ const updateBrand = async (_, args = {}, context) => {
     // 'categories',
     // 'collections',
     // 'SKUs',
-    'images'
+    'images',
   ])
 
   const brand = await Brand.findByIdAndUpdate(
     args.id,
     { ...brandInfo, ...brandRelation },
     {
-      new: true
+      new: true,
     }
   )
   console.log(brand, 'banrd')
@@ -123,7 +123,7 @@ const BrandRelations = {
     const imageIdList = get(brand, 'images', [])
     const images = await Image.find({ _id: { $in: imageIdList } })
     return images
-  }
+  },
 }
 
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
@@ -144,5 +144,5 @@ export const brandResolvers = {
   Query: { brands, brand },
   Mutation: { addBrand, deleteBrand, updateBrand, fakeBrand },
   Subscription: { brandAdded, brandUpdated, brandDeleted },
-  Brand: BrandRelations
+  Brand: BrandRelations,
 }

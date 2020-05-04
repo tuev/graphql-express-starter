@@ -13,7 +13,7 @@ export const fakeProduction = (skus = []) => {
     status: faker.random.arrayElement([true, false]),
     releaseDate: faker.date.past(),
     rate: faker.random.number(5),
-    SKUs: faker.random.arrayElement(skus)
+    SKUs: faker.random.arrayElement(skus),
   }
   return newProduct
 }

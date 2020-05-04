@@ -7,7 +7,7 @@ export const fakeCollection = (images = []) => {
     name: collectionName,
     slug: camelCase(collectionName),
     description: faker.lorem.sentences(),
-    images: faker.random.arrayElement(images)
+    images: faker.random.arrayElement(images),
   }
   return newCollection
 }

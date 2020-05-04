@@ -23,7 +23,7 @@ before_install: |
   export PATH=~/npm/node_modules/.bin:$PATH
 cache:
   directories:
-    - "~/.npm"
+    - '~/.npm'
 jobs:
   include:
     - &test
@@ -39,10 +39,10 @@ jobs:
           - ~/.npm
           - node_modules
     - <<: *test
-      node_js: "8"
+      node_js: '8'
       if: branch != master
     - <<: *test
-      node_js: "10"
+      node_js: '10'
       if: branch != master
     - stage: lint
       before_install: true
@@ -63,9 +63,9 @@ jobs:
           - ~/.npm
           - node_modules
     - <<: *smoke
-      node_js: "10"
+      node_js: '10'
     - <<: *smoke
-      node_js: "8"
+      node_js: '8'
     - stage: precache
       script: true
 after_success: npm run coverage

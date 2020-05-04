@@ -18,7 +18,7 @@ describe('User graphql test', () => {
                 id 
                }
              }
-           }`
+           }`,
       })
       .expect(200)
       .end((err, res) => {
@@ -45,7 +45,7 @@ describe('User graphql test', () => {
                 id 
                }
              }
-           }`
+           }`,
       })
       .expect(200)
       .end((err, res) => {
@@ -70,7 +70,7 @@ describe('User graphql test', () => {
                 id 
                }
              }
-           }`
+           }`,
       })
       .expect(200)
       .end((err, res) => {
@@ -97,7 +97,7 @@ describe('User graphql test', () => {
                 id 
                }
              }
-           }`
+           }`,
       })
       .expect(400)
       .end((err, res) => {
@@ -120,7 +120,7 @@ describe('User graphql test', () => {
                 id 
                }
              }
-           }`
+           }`,
       })
       .expect(200)
       .end((err, res) => {
@@ -145,7 +145,7 @@ describe('User graphql test', () => {
                 id 
                }
              }
-           }`
+           }`,
       })
       .expect(200)
     const token = get(res, 'body.data.signin.token')
@@ -160,7 +160,7 @@ describe('User graphql test', () => {
             users{
               id
              }
-           }`
+           }`,
       })
       .expect(200)
 
@@ -183,7 +183,7 @@ describe('User graphql test', () => {
             users{
               id
              }
-           }`
+           }`,
       })
       .expect(200)
 

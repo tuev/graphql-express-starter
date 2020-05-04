@@ -8,7 +8,7 @@ export const fakeSKU = ({
   collection,
   brand,
   size,
-  color
+  color,
 }) => {
   const SKUName = faker.commerce.productName()
   const newSKU = {
@@ -24,7 +24,7 @@ export const fakeSKU = ({
     collectionType: collection,
     categoryType: category,
     productType: product,
-    images: faker.random.arrayElement(images)
+    images: faker.random.arrayElement(images),
   }
   return newSKU
 }

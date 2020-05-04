@@ -7,7 +7,7 @@ export const fakeCategory = (images = []) => {
     name: categoryName,
     slug: camelCase(categoryName),
     description: faker.lorem.sentences(),
-    images: faker.random.arrayElement(images)
+    images: faker.random.arrayElement(images),
   }
   return newBrand
 }

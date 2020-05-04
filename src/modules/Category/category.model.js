@@ -6,14 +6,14 @@ const categorySchema = new Schema(
     name: {
       type: String,
       unique: true,
-      required: true
+      required: true,
     },
     slug: {
       type: String,
-      required: true
+      required: true,
     },
     description: String,
-    images: [Schema.Types.ObjectId]
+    images: [Schema.Types.ObjectId],
     // brands: [Schema.Types.ObjectId],
     // collections: [Schema.Types.ObjectId],
     // SKUs: [Schema.Types.ObjectId]

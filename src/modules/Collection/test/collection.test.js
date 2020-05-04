@@ -14,7 +14,7 @@ describe('test collection', () => {
             collections{
               id
              }
-           }`
+           }`,
       })
       .expect(200)
       .end((err, res) => {
@@ -37,7 +37,7 @@ describe('test collection', () => {
             collection(id: "${findCollection._id}"){
               id
              }
-           }`
+           }`,
       })
 
     const status = result.status
@@ -48,7 +48,7 @@ describe('test collection', () => {
 
   it('add collection', done => {
     const newCollection = {
-      name: 'new collection'
+      name: 'new collection',
     }
     chai
       .sendLocalRequest()
@@ -59,8 +59,8 @@ describe('test collection', () => {
           'mutation($name: String!, $description: String!) {\n  addCollection(input: {name: $name, description: $description}) {\n    id\n  }\n}',
         variables: {
           name: newCollection.name,
-          description: 'collection description'
-        }
+          description: 'collection description',
+        },
       })
       .expect(200)
       .end((err, res) => {
@@ -74,7 +74,7 @@ describe('test collection', () => {
   it('delete collection', async () => {
     const newCollection = await Collection.create({
       name: 'Collection',
-      slug: 'slug'
+      slug: 'slug',
     })
 
     const result = await chai
@@ -85,7 +85,7 @@ describe('test collection', () => {
         query: `
           mutation{
             deleteCollection(id: "${newCollection._id}")
-           }`
+           }`,
       })
     const status = result.status
     expect(status).to.be.equal(200)

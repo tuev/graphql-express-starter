@@ -14,7 +14,7 @@ describe('size graphql test', () => {
             sizes{
               id
              }
-           }`
+           }`,
       })
       .expect(200)
       .end((err, res) => {
@@ -37,7 +37,7 @@ describe('size graphql test', () => {
             size(id: "${findsize._id}"){
               id
              }
-           }`
+           }`,
       })
 
     const status = result.status
@@ -50,7 +50,7 @@ describe('size graphql test', () => {
     const newsize = {
       name: 'new size',
       value: 'S',
-      description: 'test size'
+      description: 'test size',
     }
     chai
       .sendLocalRequest()
@@ -59,7 +59,7 @@ describe('size graphql test', () => {
       .send({
         query:
           'mutation ($name: String!, $value: SIZE_VALUE!) {\n  addSize(input: {name: $name, value: $value}) {\n    id\n  }\n}\n',
-        variables: newsize
+        variables: newsize,
       })
       .expect(200)
       .end((err, res) => {
@@ -75,7 +75,7 @@ describe('size graphql test', () => {
       name: 'new size',
       value: 'S',
       slug: 'slug',
-      description: 'test size'
+      description: 'test size',
     })
     const result = await chai
       .sendLocalRequest()
@@ -85,7 +85,7 @@ describe('size graphql test', () => {
         query: `
           mutation{
             deleteSize(id: "${newsize._id}")
-           }`
+           }`,
       })
     const status = result.status
     expect(status).to.be.equal(200)

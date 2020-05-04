@@ -30,6 +30,6 @@ export const graphQLRouter = new ApolloServer({
     },
     onDisconnect: (webSocket, context) => {
       console.log('🚀 ws onDisconnect ')
-    }
-  }
+    },
+  },
 })

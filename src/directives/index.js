@@ -5,7 +5,7 @@ export { emailDirectives }
 
 export const schemaDirectives = {
   ...emailDirectives,
-  ...validIdDirectives
+  ...validIdDirectives,
 }
 
 export default schemaDirectives

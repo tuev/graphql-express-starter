@@ -40,7 +40,7 @@ const addImage = async (_, args = {}, { pubsub }) => {
   const newImage = pick(args.input, ['name', 'url', 'description'])
   const image = await Image.create({
     ...newImage,
-    slug: args.slug || newImage.name
+    slug: args.slug || newImage.name,
   })
 
   pubsub.publish(imageConst.IMAGE_ADDED, image)
@@ -52,7 +52,7 @@ const updateImage = async (_, args = {}, { pubsub }) => {
   const image = await Image.create(
     args.id,
     {
-      ...newImage
+      ...newImage,
     },
     { new: true }
   )
@@ -82,5 +82,5 @@ const imageDeleted = subscriptionCreator({ name: imageConst.IMAGE_DELETED })
 export const imageResolvers = {
   Query: { images, image },
   Mutation: { addImage, deleteImage, updateImage, fakeImage },
-  Subscription: { imageAdded, imageUpdated, imageDeleted }
+  Subscription: { imageAdded, imageUpdated, imageDeleted },
 }

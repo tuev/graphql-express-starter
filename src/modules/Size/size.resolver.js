@@ -45,7 +45,7 @@ const addSize = async (_, args = {}, { pubsub } = {}) => {
   const result = await Size.create({
     ...sizeInfo,
     ...sizeRelation,
-    slug
+    slug,
   })
   pubsub.publish(sizeConst.SIZE_ADDED, result)
   return result
@@ -58,7 +58,7 @@ const updateSize = async (_, args = {}, { pubsub } = {}) => {
     args.id,
     {
       ...sizeInfo,
-      ...sizeRelation
+      ...sizeRelation,
     },
     { new: true }
   )
@@ -100,5 +100,5 @@ export const sizeResolvers = {
   Query: { sizes, size },
   Mutation: { addSize, deleteSize, updateSize, fakeSize },
   Subscription: { sizeAdded, sizeUpdated, sizeDeleted },
-  Size: sizeRelation
+  Size: sizeRelation,
 }

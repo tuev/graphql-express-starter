@@ -28,7 +28,7 @@ const fakeCollection = async (_, args = {}) => {
     const newCollection = fakeCl(images)
     try {
       const isCollectionExist = await Collection.count({
-        slug: newCollection.slug
+        slug: newCollection.slug,
       })
       if (!isCollectionExist) {
         const collection = await Collection.create(newCollection)
@@ -47,7 +47,7 @@ const addCollection = async (_, args = {}, { pubsub } = {}) => {
   const result = await Collection.create({
     ...collectionInfo,
     ...collectionRelation,
-    slug
+    slug,
   })
   pubsub.publish(collectionConst.COLLECTION_ADDED, result)
   return result
@@ -61,7 +61,7 @@ const updateCollection = async (_, args = {}, { pubsub } = {}) => {
     id,
     {
       ...collectionInfo,
-      ...collectionRelation
+      ...collectionRelation,
     },
     { new: true }
   )
@@ -96,7 +96,7 @@ const CollectionRelation = {
     const imageIdList = get(collection, 'images', [])
     const images = await Image.find({ _id: { $in: imageIdList } })
     return images
-  }
+  },
 }
 
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
@@ -104,13 +104,13 @@ const CollectionRelation = {
 /* -------------------------------- SUBSCRIBE ------------------------------- */
 
 const collectionAdded = subscriptionCreator({
-  name: collectionConst.COLLECTION_ADDED
+  name: collectionConst.COLLECTION_ADDED,
 })
 const collectionUpdated = subscriptionCreator({
-  name: collectionConst.COLLECTION_UPDATED
+  name: collectionConst.COLLECTION_UPDATED,
 })
 const collectionDeleted = subscriptionCreator({
-  name: collectionConst.COLLECTION_DELETED
+  name: collectionConst.COLLECTION_DELETED,
 })
 
 /* -------------------------------------------------------------------------- */
@@ -123,8 +123,8 @@ export const collectionResolvers = {
     addCollection,
     deleteCollection,
     updateCollection,
-    fakeCollection
+    fakeCollection,
   },
   Subscription: { collectionAdded, collectionUpdated, collectionDeleted },
-  Collection: CollectionRelation
+  Collection: CollectionRelation,
 }

@@ -7,7 +7,7 @@ export const fakeImage = () => {
     name: imagenmae,
     slug: imagenmae,
     url: imageFake,
-    description: faker.lorem.sentence()
+    description: faker.lorem.sentence(),
   }
   return sizeItem
 }

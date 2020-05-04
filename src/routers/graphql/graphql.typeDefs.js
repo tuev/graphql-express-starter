@@ -50,7 +50,7 @@ const typeDefs = [
   imageType,
   productType,
   sizeType,
-  SKUType
+  SKUType,
 ]
 
 export default typeDefs

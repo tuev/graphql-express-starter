@@ -46,12 +46,12 @@ const addCategory = async (_, args = {}, { pubsub } = {}) => {
     // 'brands',
     // 'collections',
     // 'SKUs',
-    'images'
+    'images',
   ])
   const result = await Category.create({
     ...categoryInfo,
     ...categoryRelation,
-    slug
+    slug,
   })
   pubsub.publish(categoryConst.CATEGORY_ADDED, result)
   return result
@@ -64,13 +64,13 @@ const updateCategory = async (_, args = {}, { pubsub } = {}) => {
     // 'brands',
     // 'collections',
     // 'SKUs',
-    'images'
+    'images',
   ])
   const result = await Category.findByIdAndUpdate(
     id,
     {
       ...categoryInfo,
-      ...categoryRelation
+      ...categoryRelation,
     },
     { new: true }
   )
@@ -109,7 +109,7 @@ const CategoryRelation = {
     const imageIdList = get(category, 'images', [])
     const images = await Image.find({ _id: { $in: imageIdList } })
     return images
-  }
+  },
 }
 
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
@@ -117,15 +117,15 @@ const CategoryRelation = {
 /* -------------------------------- SUBCRIBE -------------------------------- */
 
 const categoryAdded = subscriptionCreator({
-  name: categoryConst.CATEGORY_ADDED
+  name: categoryConst.CATEGORY_ADDED,
 })
 
 const categoryUpdated = subscriptionCreator({
-  name: categoryConst.CATEGORY_UPDATED
+  name: categoryConst.CATEGORY_UPDATED,
 })
 
 const categoryDeleted = subscriptionCreator({
-  name: categoryConst.CATEGORY_DELETED
+  name: categoryConst.CATEGORY_DELETED,
 })
 
 /* -------------------------------------------------------------------------- */
@@ -136,5 +136,5 @@ export const categoryResolvers = {
   Query: { categories, category },
   Mutation: { addCategory, deleteCategory, updateCategory, fakeCategory },
   Subscription: { categoryAdded, categoryUpdated, categoryDeleted },
-  Category: CategoryRelation
+  Category: CategoryRelation,
 }

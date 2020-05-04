@@ -6,14 +6,14 @@ const imageSchema = new Schema(
     name: {
       type: String,
       unique: true,
-      required: true
+      required: true,
     },
     slug: {
       type: String,
-      required: true
+      required: true,
     },
     url: String,
-    description: String
+    description: String,
   },
   { timestamps: true }
 )

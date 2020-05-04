@@ -14,7 +14,7 @@ describe('Category graphql test', () => {
             categories{
               id
              }
-           }`
+           }`,
       })
       .expect(200)
       .end((err, res) => {
@@ -38,7 +38,7 @@ describe('Category graphql test', () => {
             category(id: "${findCategory._id}"){
               id
              }
-           }`
+           }`,
       })
 
     const status = result.status
@@ -49,18 +49,19 @@ describe('Category graphql test', () => {
 
   it('add category', done => {
     const newCategory = {
-      name: 'new Category'
+      name: 'new Category',
     }
     chai
       .sendLocalRequest()
       .post('/graphql')
       .set('Accept', 'application/json')
       .send({
-        query: 'mutation($name: String!, $description: String!) {\n  addCategory(input: {name: $name, description: $description}) {\n    id\n  }\n}',
+        query:
+          'mutation($name: String!, $description: String!) {\n  addCategory(input: {name: $name, description: $description}) {\n    id\n  }\n}',
         variables: {
           name: newCategory.name,
-          description: 'category description'
-        }
+          description: 'category description',
+        },
       })
       .expect(200)
       .end((err, res) => {
@@ -74,7 +75,7 @@ describe('Category graphql test', () => {
   it('delete category', async () => {
     const newCategory = await Category.create({
       name: 'Category',
-      slug: 'slug'
+      slug: 'slug',
     })
 
     const result = await chai
@@ -85,7 +86,7 @@ describe('Category graphql test', () => {
         query: `
           mutation{
             deleteCategory(id: "${newCategory._id}")
-           }`
+           }`,
       })
     const status = result.status
     expect(status).to.be.equal(200)

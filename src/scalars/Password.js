@@ -4,7 +4,7 @@ import { ApolloError } from 'apollo-server-express'
 export const passwordRegEx = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,50})/
 
 class PasswordType extends GraphQLScalarType {
-  constructor (type) {
+  constructor(type) {
     super({
       name: 'Password',
       parseValue: value => type.parseValue(value),
@@ -17,7 +17,7 @@ class PasswordType extends GraphQLScalarType {
           'Password failed validation. ',
           'INVALID_PASSWORD'
         )
-      }
+      },
     })
   }
 }
@@ -25,5 +25,5 @@ class PasswordType extends GraphQLScalarType {
 export { PasswordType }
 
 export const passwordScalar = {
-  Password: new PasswordType(GraphQLString)
+  Password: new PasswordType(GraphQLString),
 }

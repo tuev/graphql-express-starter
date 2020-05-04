@@ -7,7 +7,7 @@ export const fakeBrand = (images = []) => {
     name: companyName,
     slug: camelCase(companyName),
     description: faker.lorem.sentences(),
-    images: faker.random.arrayElement(images)
+    images: faker.random.arrayElement(images),
   }
   return newBrand
 }

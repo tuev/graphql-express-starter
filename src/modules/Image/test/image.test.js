@@ -14,7 +14,7 @@ describe('image graphql test', () => {
             images{
               id
              }
-           }`
+           }`,
       })
       .expect(200)
       .end((err, res) => {
@@ -39,7 +39,7 @@ describe('image graphql test', () => {
             image(id: "${findimage._id}"){
               id
              }
-           }`
+           }`,
       })
 
     const status = result.status
@@ -52,7 +52,7 @@ describe('image graphql test', () => {
     const newimage = {
       name: 'new image',
       description: 'blue',
-      url: 'test'
+      url: 'test',
     }
     chai
       .sendLocalRequest()
@@ -61,7 +61,7 @@ describe('image graphql test', () => {
       .send({
         query:
           'mutation ($name: String!, $description: String!, $url: String!) {\n  addImage(input: {name: $name, description: $description, url: $url}) {\n    id\n  }\n}\n',
-        variables: newimage
+        variables: newimage,
       })
       .expect(200)
       .end((err, res) => {
@@ -77,7 +77,7 @@ describe('image graphql test', () => {
       name: 'image',
       slug: 'slug',
       value: 'yellow',
-      url: 'test'
+      url: 'test',
     })
     console.log(newimage, 'image')
     const result = await chai
@@ -88,7 +88,7 @@ describe('image graphql test', () => {
         query: `
           mutation{
             deleteImage(id: "${newimage._id}")
-           }`
+           }`,
       })
     const status = result.status
     expect(status).to.be.equal(200)

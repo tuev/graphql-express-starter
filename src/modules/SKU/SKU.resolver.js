@@ -54,7 +54,7 @@ const fakeSKU = async (_, args = {}) => {
     'brand',
     'collection',
     'category',
-    'product'
+    'product',
   ])
   const quantity = get(args, 'quantity', 10)
   for (let i = 0; i < quantity; i++) {
@@ -64,11 +64,11 @@ const fakeSKU = async (_, args = {}) => {
       brand: params.brand || faker.random.arrayElement(brand),
       collection: params.collection || faker.random.arrayElement(collection),
       category: params.category || faker.random.arrayElement(category),
-      product: params.product || faker.random.arrayElement(product)
+      product: params.product || faker.random.arrayElement(product),
     })
     try {
       const isProductionExist = await SKU.count({
-        slug: newProduction.slug
+        slug: newProduction.slug,
       })
       if (!isProductionExist) {
         const production = await SKU.create(newProduction)
@@ -86,7 +86,7 @@ const addSKU = async (_, args = {}, { pubsub } = {}) => {
     'quantity',
     'price',
     'discount',
-    'isPublic'
+    'isPublic',
   ])
   const slug = args.slug || SKUInfo.name
   const SKURelation = pick(args, [
@@ -96,12 +96,12 @@ const addSKU = async (_, args = {}, { pubsub } = {}) => {
     'collectionType',
     'categoryType',
     'productType',
-    'images'
+    'images',
   ])
   const result = await SKU.create({
     ...SKUInfo,
     ...SKURelation,
-    slug
+    slug,
   })
   pubsub.publish(SKUConstant.SKU_ADDED, result)
   return result
@@ -113,7 +113,7 @@ const updateSKU = async (_, args = {}, { pubsub } = {}) => {
     'quantity',
     'price',
     'discount',
-    'isPublic'
+    'isPublic',
   ])
   const SKURelation = pick(args, [
     'color',
@@ -122,13 +122,13 @@ const updateSKU = async (_, args = {}, { pubsub } = {}) => {
     'collectionType',
     'categoryType',
     'productType',
-    'images'
+    'images',
   ])
   const result = await SKU.findByIdAndUpdate(
     args.id,
     {
       ...SKUInfo,
-      ...SKURelation
+      ...SKURelation,
     },
     { new: true }
   )
@@ -173,7 +173,7 @@ const SKURelation = {
   productType: async SKU => {
     const product = await Product.findById(SKU.productType)
     return product
-  }
+  },
 }
 
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
@@ -192,5 +192,5 @@ export const SKUResolvers = {
   Query: { skus, sku },
   Mutation: { addSKU, deleteSKU, updateSKU, fakeSKU },
   Subscription: { SKUAdded, SKUUpdated, SKUDeleted },
-  SKU: SKURelation
+  SKU: SKURelation,
 }

@@ -43,7 +43,7 @@ const addColor = async (_, args = {}, { pubsub } = {}) => {
   const color = await Color.create({
     ...colorInfo,
     ...colorRelation,
-    slug: args.slug || colorInfo.name
+    slug: args.slug || colorInfo.name,
   })
   pubsub.publish(colorConst.COLOR_ADDED, color)
   return color
@@ -57,7 +57,7 @@ const updateColor = async (_, args = {}, { pubsub } = {}) => {
     id,
     {
       ...colorInfo,
-      ...colorRelation
+      ...colorRelation,
     },
     { new: true }
   )
@@ -79,7 +79,7 @@ const colorRelation = {
     const skuIdList = get(color, 'SKUs', [])
     const SKUs = await SKU.find({ _id: { $in: skuIdList } })
     return SKUs
-  }
+  },
 }
 
 /* ---------------------------- APPLY MIDDLEWARE ---------------------------- */
@@ -98,5 +98,5 @@ export const colorResolvers = {
   Query: { colors, color },
   Mutation: { addColor, deleteColor, updateColor, fakeColor },
   Subscription: { colorAdded, colorUpdated, colorDeleted },
-  Color: colorRelation
+  Color: colorRelation,
 }

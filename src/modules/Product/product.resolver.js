@@ -26,7 +26,7 @@ const fakeProduction = async (_, args = {}) => {
     const newProduction = fakePr()
     try {
       const isProductionExist = await Product.count({
-        slug: newProduction.slug
+        slug: newProduction.slug,
       })
       if (!isProductionExist) {
         const production = await Product.create(newProduction)
@@ -44,7 +44,7 @@ const addProduct = async (_, args = {}, { pubsub } = {}) => {
     'description',
     'isPublic',
     'status',
-    'releaseDate'
+    'releaseDate',
   ])
   const productRelation = pick(args, [
     // 'SKUs'
@@ -54,7 +54,7 @@ const addProduct = async (_, args = {}, { pubsub } = {}) => {
     ...productInfo,
     ...productRelation,
     slug,
-    releaseDate: productInfo.releaseDate || new Date()
+    releaseDate: productInfo.releaseDate || new Date(),
   })
   pubsub.publish(productConst.PRODUCT_ADDED, product)
   return product
@@ -66,7 +66,7 @@ const updateProduct = async (_, args = {}, { pubsub } = {}) => {
     'description',
     'isPublic',
     'status',
-    'releaseDate'
+    'releaseDate',
   ])
   const productRelation = pick(args, [
     // 'SKUs'
@@ -76,7 +76,7 @@ const updateProduct = async (_, args = {}, { pubsub } = {}) => {
     {
       ...productInfo,
       ...productRelation,
-      releaseDate: productInfo.releaseDate || new Date()
+      releaseDate: productInfo.releaseDate || new Date(),
     },
     { new: true }
   )
@@ -106,10 +106,10 @@ const productRelation = {
 
 const productAdded = subscriptionCreator({ name: productConst.PRODUCT_ADDED })
 const productUpdated = subscriptionCreator({
-  name: productConst.PRODUCT_UPDATED
+  name: productConst.PRODUCT_UPDATED,
 })
 const productDeleted = subscriptionCreator({
-  name: productConst.PRODUCT_DELETED
+  name: productConst.PRODUCT_DELETED,
 })
 
 /* -------------------------------------------------------------------------- */
@@ -120,5 +120,5 @@ export const productResolvers = {
   Query: { products, product },
   Mutation: { addProduct, deleteProduct, updateProduct, fakeProduction },
   Subscription: { productAdded, productUpdated, productDeleted },
-  Product: productRelation
+  Product: productRelation,
 }

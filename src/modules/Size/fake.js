@@ -6,7 +6,7 @@ export const fakeSize = () => {
     name: sizeFake,
     slug: sizeFake,
     value: sizeFake,
-    description: faker.lorem.sentence()
+    description: faker.lorem.sentence(),
   }
   return sizeItem
 }

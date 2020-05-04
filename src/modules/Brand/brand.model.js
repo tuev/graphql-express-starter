@@ -6,16 +6,16 @@ const brandSchema = new Schema(
     name: {
       type: String,
       unique: true,
-      required: true
+      required: true,
     },
     slug: {
       type: String,
-      required: true
+      required: true,
     },
     description: String,
     // collections: [Schema.Types.ObjectId],
     // categories: [Schema.Types.ObjectId],
-    images: [Schema.Types.ObjectId]
+    images: [Schema.Types.ObjectId],
     // SKUs: [Schema.Types.ObjectId]
   },
   { timestamps: true }

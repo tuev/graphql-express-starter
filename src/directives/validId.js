@@ -20,13 +20,13 @@ const mapValidType = {
   ImageId: Image,
   SizeId: Size,
   SKUId: SKU,
-  UserId: User
+  UserId: User,
 }
 
 class ValidIdDirective extends SchemaDirectiveVisitor {
-  visitInputFieldDefinition (field) {
+  visitInputFieldDefinition(field) {
     const { resolve = defaultFieldResolver } = field
-    field.resolve = async function (...args) {
+    field.resolve = async function(...args) {
       console.log(args, 'args in resolve')
 
       const result = await resolve.apply(this, args)
@@ -34,7 +34,7 @@ class ValidIdDirective extends SchemaDirectiveVisitor {
     }
   }
 
-  visitArgumentDefinition (argument, details) {
+  visitArgumentDefinition(argument, details) {
     const originalResolver = details.field.resolve
     details.field.resolve = async (...resolveArgs) => {
       const argName = argument.name
@@ -58,5 +58,5 @@ class ValidIdDirective extends SchemaDirectiveVisitor {
 }
 
 export const validIdDirectives = {
-  validId: ValidIdDirective
+  validId: ValidIdDirective,
 }

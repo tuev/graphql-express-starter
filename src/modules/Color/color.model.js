@@ -6,14 +6,14 @@ const colorSchema = new Schema(
     name: {
       type: String,
       unique: true,
-      required: true
+      required: true,
     },
     slug: {
       type: String,
-      required: true
+      required: true,
     },
     value: String,
-    description: String
+    description: String,
   },
   { timestamps: true }
 )

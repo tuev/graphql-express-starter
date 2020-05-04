@@ -29,9 +29,7 @@ server.listen(port, () => {
     `🚀 Server ready at http://localhost:${port}${graphQLRouter.graphqlPath}`
   )
   console.log(
-    `🚀 Subscriptions ready at ws://localhost:${port}${
-      graphQLRouter.subscriptionsPath
-    }`
+    `🚀 Subscriptions ready at ws://localhost:${port}${graphQLRouter.subscriptionsPath}`
   )
   console.log(' server is connected', port)
 })

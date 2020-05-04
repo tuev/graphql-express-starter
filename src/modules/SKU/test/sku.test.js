@@ -14,7 +14,7 @@ describe('sku graphql test', () => {
             skus{
               id
              }
-           }`
+           }`,
       })
       .expect(200)
       .end((err, res) => {
@@ -37,7 +37,7 @@ describe('sku graphql test', () => {
             sku(id: "${findsku._id}"){
               id
              }
-           }`
+           }`,
       })
 
     const status = result.status
@@ -51,7 +51,7 @@ describe('sku graphql test', () => {
       name: 'new sku',
       quantity: 30,
       price: 40,
-      discount: 70
+      discount: 70,
     }
     chai
       .sendLocalRequest()
@@ -60,7 +60,7 @@ describe('sku graphql test', () => {
       .send({
         query:
           'mutation ($name: String!, $quantity: Int!, $price: Int!, $discount: Int) {\n  addSKU(input: {name: $name, quantity: $quantity, price: $price, discount: $discount}) {\n    id\n  }\n}\n',
-        variables: newsku
+        variables: newsku,
       })
       .expect(200)
       .end((err, res) => {
@@ -75,7 +75,7 @@ describe('sku graphql test', () => {
     const newsku = await SKU.create({
       name: 'new sku',
       slug: 'slug',
-      description: 'test sku'
+      description: 'test sku',
     })
     const result = await chai
       .sendLocalRequest()
@@ -85,7 +85,7 @@ describe('sku graphql test', () => {
         query: `
           mutation{
             deleteSKU(id: "${newsku._id}")
-           }`
+           }`,
       })
     const status = result.status
     expect(status).to.be.equal(200)

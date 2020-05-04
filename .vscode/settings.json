@@ -1,0 +1,55 @@
+{
+  "prettier.trailingComma": "none",
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#030b05",
+    "statusBar.noFolderBackground": "#aa8f35",
+    "statusBar.debuggingBackground": "#aa2d2d",
+    "activityBar.background": "#5b1c8f",
+    "sideBarSectionHeader.background": "#191cb3",
+    "activityBar.activeBackground": "#5e0e8b",
+    "activityBar.activeBorder": "#6f50cf",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#6f50cf",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "statusBar.border": "#030b05",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#093b69",
+    "titleBar.activeBackground": "#030b05",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.border": "#030b05",
+    "titleBar.inactiveBackground": "#030b0599",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "todohighlight.isEnable": true,
+  "todohighlight.keywords": [
+    "DEBUG:",
+    "REVIEW:",
+    {
+      "text": "NOTE:",
+      "color": "#ff0000",
+      "backgroundColor": "yellow",
+      "overviewRulerColor": "grey"
+    },
+    {
+      "text": "HACK:",
+      "color": "#000",
+      "isWholeLine": false
+    },
+    {
+      "text": "TODO:",
+      "color": "red",
+      "border": "1px solid red",
+      "borderRadius": "2px",
+      "backgroundColor": "rgba(0,0,0,.2)"
+    },
+    {
+      "text": "REF:",
+      "color": "#890",
+      "border": "1px solid red",
+      "borderRadius": "2px",
+      "backgroundColor": "rgba(0,0,0,.2)"
+    }
+  ],
+  "peacock.color": "#030b05"
+}

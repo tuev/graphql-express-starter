@@ -6,18 +6,18 @@ const skuSchema = new Schema(
     name: {
       type: String,
       unique: true,
-      required: true
+      required: true,
     },
     slug: {
       type: String,
-      required: true
+      required: true,
     },
     quantity: Number,
     price: String,
     discount: String,
     isPublic: {
       type: Boolean,
-      default: false
+      default: false,
     },
     color: Schema.Types.ObjectId,
     size: Schema.Types.ObjectId,
@@ -25,7 +25,7 @@ const skuSchema = new Schema(
     collectionType: Schema.Types.ObjectId,
     categoryType: Schema.Types.ObjectId,
     productType: Schema.Types.ObjectId,
-    images: [Schema.Types.ObjectId]
+    images: [Schema.Types.ObjectId],
   },
   { timestamps: true }
 )

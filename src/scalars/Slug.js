@@ -2,7 +2,7 @@ import { GraphQLScalarType, GraphQLString } from 'graphql'
 import { camelCase } from 'lodash'
 
 class SlugType extends GraphQLScalarType {
-  constructor (type) {
+  constructor(type) {
     super({
       name: 'Slug',
       parseValue: value => type.parseValue(value),
@@ -10,7 +10,7 @@ class SlugType extends GraphQLScalarType {
       parseLiteral: ast => {
         console.log(ast.value, 'value')
         return camelCase(ast.value)
-      }
+      },
     })
   }
 }
@@ -18,5 +18,5 @@ class SlugType extends GraphQLScalarType {
 export { SlugType }
 
 export const slugScalar = {
-  Slug: new SlugType(GraphQLString)
+  Slug: new SlugType(GraphQLString),
 }

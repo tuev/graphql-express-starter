@@ -6,7 +6,7 @@ export const fakeColor = () => {
     name: colorFake,
     slug: colorFake,
     value: colorFake,
-    description: faker.lorem.sentence()
+    description: faker.lorem.sentence(),
   }
   return colorItem
 }

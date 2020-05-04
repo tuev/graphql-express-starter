@@ -14,7 +14,7 @@ describe('color graphql test', () => {
             colors{
               id
              }
-           }`
+           }`,
       })
       .expect(200)
       .end((err, res) => {
@@ -37,7 +37,7 @@ describe('color graphql test', () => {
             color(id: "${findColor._id}"){
               id
              }
-           }`
+           }`,
       })
 
     const status = result.status
@@ -50,7 +50,7 @@ describe('color graphql test', () => {
     const newColor = {
       name: 'new color',
       value: 'blue',
-      description: 'color description'
+      description: 'color description',
     }
     chai
       .sendLocalRequest()
@@ -59,7 +59,7 @@ describe('color graphql test', () => {
       .send({
         query:
           'mutation ($name: String!, $description: String!, $value: String!) {\n  addColor(input: {name: $name, description: $description, value: $value}) {\n    id\n  }\n}\n',
-        variables: newColor
+        variables: newColor,
       })
       .expect(200)
       .end((err, res) => {
@@ -74,7 +74,7 @@ describe('color graphql test', () => {
     const newColor = await Color.create({
       name: 'color',
       slug: 'slug',
-      value: 'yellow'
+      value: 'yellow',
     })
     const result = await chai
       .sendLocalRequest()
@@ -84,7 +84,7 @@ describe('color graphql test', () => {
         query: `
           mutation{
             deleteColor(id: "${newColor._id}")
-           }`
+           }`,
       })
     const status = result.status
     expect(status).to.be.equal(200)

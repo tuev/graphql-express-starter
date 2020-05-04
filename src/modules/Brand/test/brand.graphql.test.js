@@ -14,7 +14,7 @@ describe('Brand graphql test', () => {
             brands{
               id
              }
-           }`
+           }`,
       })
       .expect(200)
       .end((err, res) => {
@@ -38,7 +38,7 @@ describe('Brand graphql test', () => {
             brand(id: "${findBrand._id}"){
               id
              }
-           }`
+           }`,
       })
 
     const status = result.status
@@ -55,7 +55,7 @@ describe('Brand graphql test', () => {
       .send({
         query:
           'mutation($name: String!, $description: String!) {\n  addBrand(input: {name: $name, description: $description} ){\n    id\n  }\n}\n',
-        variables: { name: 'test brand', description: 'test description' }
+        variables: { name: 'test brand', description: 'test description' },
       })
       .expect(200)
       .end((err, res) => {
@@ -79,7 +79,7 @@ describe('Brand graphql test', () => {
         query: `
           mutation{
             deleteBrand(id: "${newBrand._id}")
-           }`
+           }`,
       })
     const status = result.status
     expect(status).to.be.equal(200)
@@ -107,7 +107,7 @@ describe('Brand graphql test', () => {
       .set('Accept', 'application/json')
       .send({
         query:
-          'mutation{\n  updateBrand(id: "5e527dd41ba6a004dca6c2c7", input: {description: "new dr"}) {\n    id\n  name\n  }\n}"}'
+          'mutation{\n  updateBrand(id: "5e527dd41ba6a004dca6c2c7", input: {description: "new dr"}) {\n    id\n  name\n  }\n}"}',
         // variables: updateData,
       })
       .expect(200)

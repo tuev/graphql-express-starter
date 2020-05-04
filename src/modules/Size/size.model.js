@@ -6,18 +6,18 @@ const sizeSchema = new Schema(
     name: {
       type: String,
       unique: true,
-      required: true
+      required: true,
     },
     slug: {
       type: String,
-      required: true
+      required: true,
     },
     value: {
       type: String,
       enum: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-      default: 'M'
+      default: 'M',
     },
-    description: String
+    description: String,
     // SKUs: [Schema.Types.ObjectId],
   },
   { timestamps: true }
