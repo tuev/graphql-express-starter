@@ -1,0 +1,37 @@
+version: 2.1 # use CircleCI 2.1
+machine:
+  environment:
+    PATH: '${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin'
+
+dependencies:
+  override:
+    - yarn
+  cache_directories:
+    - ~/.cache/yarn
+  pre:
+    - yarn global add now
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies with NPM
+          command: yarn install
+      - run:
+          name: Check if yarn lint was run
+          command: yarn lint
+      - run:
+          name: Run tests
+          command: yarn test
+      # - run:
+      #     name: Coverage
+      #     command: bash <(curl -s https://codecov.io/bash) -t aa174e44-1e0b-41d1-a276-015d172903a0
+
+workflows:
+  version: 2.1
+  Build and Test:
+    jobs:
+      - build
