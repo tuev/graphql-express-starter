@@ -68,7 +68,9 @@ jobs:
       node_js: '8'
     - stage: precache
       script: true
-after_success: npm run coverage
+after_success:
+  - npm run coverage
+  - bash <(curl -s https://codecov.io/bash) -t 279d850f-3dab-4e15-9a29-755ba2bec500
 services: mongodb
 sudo: false
 before_deploy:

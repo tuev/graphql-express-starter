@@ -17,8 +17,8 @@
     "prebuild": "npm run build:clean",
     "start:prod": "node build/main.js",
     "start-docker": "bash start-docker.sh",
-    "test": "cross-env NODE_ENV=test mocha-webpack --timeout 1000000 --webpack-config webpack/webpack.test.js \"src /**/*.js\" \"test /**/*.js\" \"test/**/*.test.js\"  \"src/**/*.test.js\"",
-    "coverage": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text npm run test"
+    "test": "cross-env NODE_ENV=test ./node_modules/.bin/mocha-webpack --timeout 1000000 --webpack-config webpack/webpack.test.js \"src /**/*.js\" \"test /**/*.js\" \"test/**/*.test.js\"  \"src/**/*.test.js\"",
+    "coverage": "cross-env NODE_ENV=test ./node_modules/.bin/nyc --reporter=lcov --reporter=text npm run test"
   },
   "keywords": [
     "mongo",
@@ -97,17 +97,16 @@
   },
   "nyc": {
     "include": [
-      "src/**/*.js"
+      "src/**/*.js",
+      "!src/**/*.test.js",
+      "!src/index.js",
+      "!src/server.js",
+      "!src/**/*.model.js",
+      "!src/scalars/*",
+      "!src/directives/*"
     ],
     "instrument": false,
     "sourceMap": false,
-    "exclude": [
-      "src/index.js",
-      "src/server.js",
-      "src/**/*.test.js",
-      "src/**/*.model.js",
-      "src/scalars/*",
-      "src/directives/*"
-    ]
+    "exclude": []
   }
 }
