@@ -40,7 +40,7 @@
     "graphql-subscriptions": "^1.1.0",
     "graphql-tools": "^4.0.6",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "method-override": "^3.0.0",
     "mongoose": "^5.8.10",
     "sift": "^11.1.1"
