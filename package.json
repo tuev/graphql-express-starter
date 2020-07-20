@@ -33,7 +33,7 @@
     "apollo-server-express": "^2.9.16",
     "bcrypt": "^3.0.7",
     "express": "^4.17.1",
-    "express-restify-mongoose": "^5.0.0",
+    "express-restify-mongoose": "^6.1.1",
     "faker": "^4.1.0",
     "graphql": "^14.6.0",
     "graphql-depth-limit": "^1.1.0",
