@@ -73,7 +73,7 @@
     "mocha": "^7.0.1",
     "mocha-webpack": "2.0.0-beta.0",
     "mongodb-memory-server": "^6.2.4",
-    "nock": "^11.7.2",
+    "nock": "^13.0.3",
     "nodemon-webpack-plugin": "^4.2.2",
     "nyc": "^15.0.0",
     "prettier": "^1.19.1",
