@@ -38,7 +38,7 @@
     "graphql": "^14.6.0",
     "graphql-depth-limit": "^1.1.0",
     "graphql-subscriptions": "^1.1.0",
-    "graphql-tools": "^4.0.6",
+    "graphql-tools": "^6.0.18",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "method-override": "^3.0.0",
