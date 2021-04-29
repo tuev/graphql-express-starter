@@ -1,0 +1,50 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: apollo-server-core
+    versions:
+    - 2.19.2
+    - 2.21.0
+    - 2.21.1
+    - 2.22.1
+    - 2.22.2
+  - dependency-name: nodemon-webpack-plugin
+    versions:
+    - 4.4.4
+    - 4.5.0
+  - dependency-name: "@babel/runtime"
+    versions:
+    - 7.12.13
+    - 7.12.18
+    - 7.12.5
+    - 7.13.10
+    - 7.13.2
+    - 7.13.6
+    - 7.13.7
+    - 7.13.8
+    - 7.13.9
+  - dependency-name: nock
+    versions:
+    - 13.0.10
+    - 13.0.6
+    - 13.0.7
+    - 13.0.8
+    - 13.0.9
+  - dependency-name: graphql-tools
+    versions:
+    - 7.0.2
+    - 7.0.3
+  - dependency-name: sift
+    versions:
+    - 13.5.0
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
+  - dependency-name: elliptic
+    versions:
+    - 6.5.3
